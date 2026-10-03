@@ -5,7 +5,7 @@ meta	@file:JvmName
 string	"Edge"
 	)\n\n
 keyword	package
-	 me.rerere.edge\n\n
+	 io.github.moriskakitsu.edge\n\n
 keyword	import
 	 kotlin.reflect.KClass\n\n
 meta	@Target(AnnotationTarget.CLASS)

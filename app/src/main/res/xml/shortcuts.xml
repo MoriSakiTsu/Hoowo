@@ -8,8 +8,8 @@
         android:shortcutLongLabel="@string/shortcut_take_picture">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="me.rerere.rikkahub.ui.activity.ShortcutHandlerActivity"
-            android:data="rikkahub://shortcut" />
+            android:targetClass="io.github.moriskakitsu.hoowo.ui.activity.ShortcutHandlerActivity"
+            android:data="hoowo://shortcut" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -19,8 +19,8 @@
         android:shortcutShortLabel="@string/translator_page_title"
         android:shortcutLongLabel="@string/translator_page_title">
         <intent
-            android:action="me.rerere.rikkahub.action.TRANSLATE"
-            android:targetClass="me.rerere.rikkahub.RouteActivity" />
+            android:action="io.github.moriskakitsu.hoowo.action.TRANSLATE"
+            android:targetClass="io.github.moriskakitsu.hoowo.RouteActivity" />
     </shortcut>
     <shortcut
         android:shortcutId="image_gen"
@@ -29,7 +29,7 @@
         android:shortcutShortLabel="@string/imggen_page_title"
         android:shortcutLongLabel="@string/imggen_page_title">
         <intent
-            android:action="me.rerere.rikkahub.action.IMAGE_GEN"
-            android:targetClass="me.rerere.rikkahub.RouteActivity" />
+            android:action="io.github.moriskakitsu.hoowo.action.IMAGE_GEN"
+            android:targetClass="io.github.moriskakitsu.hoowo.RouteActivity" />
     </shortcut>
 </shortcuts>

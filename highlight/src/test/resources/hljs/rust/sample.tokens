@@ -129,13 +129,13 @@ built_in	vec!
 	[User::
 title.function.invoke	new
 	(
-string	"Rikka"
+string	"Hoowo"
 	, 
 number	18
 	), User::
 title.function.invoke	new
 	(
-string	"Rerere"
+string	"Alex"
 	, 
 number	20
 	)];\n\n    

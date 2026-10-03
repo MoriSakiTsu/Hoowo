@@ -1,9 +1,9 @@
 plugins {
-    id("rikkahub.android.library")
+    id("hoowo.android.library")
 }
 
 android {
-    namespace = "me.rerere.document"
+    namespace = "io.github.moriskakitsu.document"
 
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")

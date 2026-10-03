@@ -5,7 +5,7 @@ keyword	FROM
 number	21
 	-jdk AS build\n
 keyword	MAINTAINER
-	 rikka\n
+	 hoowo\n
 keyword	ARG
 	 VERSION=
 number	2

@@ -4,7 +4,7 @@ comment	! Legacy comment style
 	\n\n
 attr	app.name
 	 = 
-string	RikkaHub
+string	Hoowo
 	\n
 attr	app.version
 	=
@@ -24,7 +24,7 @@ string	api.example.com, \\\n               cdn.example.com
 	\n\n
 attr	path.windows
 	 = 
-string	C:\\\\Users\\\\rikka
+string	C:\\\\Users\\\\hoowo
 	\n
 attr	message.greeting
 	 = 

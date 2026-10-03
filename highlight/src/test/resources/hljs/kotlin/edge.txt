@@ -2,7 +2,7 @@
 
 @file:JvmName("Edge")
 
-package me.rerere.edge
+package io.github.moriskakitsu.edge
 
 import kotlin.reflect.KClass
 

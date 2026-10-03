@@ -1,9 +1,9 @@
 plugins {
-    id("rikkahub.android.library.compose")
+    id("hoowo.android.library.compose")
 }
 
 android {
-    namespace = "me.rerere.highlight"
+    namespace = "io.github.moriskakitsu.highlight"
 
     defaultConfig {
         minSdk = 24

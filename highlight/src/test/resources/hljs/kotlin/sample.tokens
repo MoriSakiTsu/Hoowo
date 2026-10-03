@@ -1,10 +1,10 @@
 keyword	package
-	 me.rerere.demo\n\n
+	 io.github.moriskakitsu.demo\n\n
 keyword	import
 	 kotlinx.coroutines.delay\n\n
 comment	/**\n * A tiny chat session.\n *\n * 
 doctag	@author
-comment	 Rikka\n */
+comment	 Hoowo\n */
 	\n
 keyword	class
 	 

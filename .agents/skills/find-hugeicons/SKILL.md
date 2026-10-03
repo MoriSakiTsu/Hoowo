@@ -28,13 +28,13 @@ find ~/.gradle/caches -path "*hugeicons-compose*/jars/classes.jar" | head -1
 2. Search for icons by keyword in the JAR:
 
 ```bash
-jar -tf <jar_path> | grep -i "<keyword>" | grep "stroke/.*Kt.class" | sed 's|me/rerere/hugeicons/stroke/||;s|Kt.class||'
+jar -tf <jar_path> | grep -i "<keyword>" | grep "stroke/.*Kt.class" | sed 's|io/github/moriskakitsu/hugeicons/stroke/||;s|Kt.class||'
 ```
 
 Or as a single pipeline:
 
 ```bash
-jar -tf $(find ~/.gradle/caches -path "*hugeicons-compose*/jars/classes.jar" | head -1) | grep -i "<keyword>" | grep "stroke/.*Kt.class" | sed 's|me/rerere/hugeicons/stroke/||;s|Kt.class||'
+jar -tf $(find ~/.gradle/caches -path "*hugeicons-compose*/jars/classes.jar" | head -1) | grep -i "<keyword>" | grep "stroke/.*Kt.class" | sed 's|io/github/moriskakitsu/hugeicons/stroke/||;s|Kt.class||'
 ```
 
 3. Present a list of matching icon names to the user.
@@ -45,7 +45,7 @@ jar -tf $(find ~/.gradle/caches -path "*hugeicons-compose*/jars/classes.jar" | h
 
 ```kotlin
 // Import each icon used
-import me.rerere.hugeicons.stroke.AiMagic
+import io.github.moriskakitsu.hugeicons.stroke.AiMagic
 
 // Use in Compose
 Icon(HugeIcons.AiMagic, contentDescription = null)

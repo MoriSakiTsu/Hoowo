@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "me.rerere.baselineprofile"
+    namespace = "io.github.moriskakitsu.baselineprofile"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

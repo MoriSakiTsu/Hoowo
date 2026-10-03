@@ -1,10 +1,10 @@
 plugins {
-    id("rikkahub.android.library")
+    id("hoowo.android.library")
     alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "me.rerere.oauth"
+    namespace = "io.github.moriskakitsu.oauth"
 }
 
 dependencies {
