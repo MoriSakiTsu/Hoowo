@@ -7,7 +7,7 @@ import java.util.Map;
  * A tiny chat session.
  *
  * TODO: support streaming replies.
- * Questions go to rikka@example.com, not to the tracker.
+ * Questions go to hoowo@example.com, not to the tracker.
  *
  * @author Hoowo
  * @since 1.0

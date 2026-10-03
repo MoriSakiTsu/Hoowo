@@ -6,9 +6,9 @@ keyword	import
 	 java.util.Map;\n\n
 comment	/**\n * A tiny chat session.\n *\n * 
 doctag	TODO:
-comment	 support streaming replies.\n * Questions go to rikka@example.com, not to the tracker.\n *\n * 
+comment	 support streaming replies.\n * Questions go to hoowo@example.com, not to the tracker.\n *\n * 
 doctag	@author
-comment	 Rikka\n * 
+comment	 Hoowo\n * 
 doctag	@since
 comment	 1.0\n */
 	\n

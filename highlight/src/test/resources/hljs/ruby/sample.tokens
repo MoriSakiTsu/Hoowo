@@ -6,7 +6,7 @@ comment	 name [String]
 	\n
 keyword	module
 	 
-title.class	RikkaHub
+title.class	Hoowo
 	\n  
 keyword	class
 	 
@@ -72,9 +72,9 @@ keyword	end
 	\n
 keyword	end
 	\n\nusers = [
-title.class	RikkaHub::User
+title.class	Hoowo::User
 	.new(
-string	"Rikka"
+string	"Hoowo"
 	)]\nusers.each { |
 params	user
 	| puts user.greet }\n

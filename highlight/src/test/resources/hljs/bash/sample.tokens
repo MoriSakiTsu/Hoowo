@@ -4,7 +4,7 @@ built_in	set
 	 -euo pipefail\n\n
 comment	# build helper
 	\nNAME=
-string	"rikka"
+string	"hoowo"
 	\n
 built_in	readonly
 	 ROOT=/usr/local/share\n\n

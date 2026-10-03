@@ -9,7 +9,7 @@ app.debug false
 server.hosts = api.example.com, \
                cdn.example.com
 
-path.windows = C:\\Users\\rikka
+path.windows = C:\\Users\\hoowo
 message.greeting = Hello, \u4e16\u754c!
 key\=with\=equals = escaped value
 

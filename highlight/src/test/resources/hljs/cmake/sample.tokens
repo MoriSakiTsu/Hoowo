@@ -3,7 +3,7 @@ keyword	cmake_minimum_required
 number	3.22
 	)\n
 keyword	project
-	(rikka LANGUAGES CXX)\n\n
+	(hoowo LANGUAGES CXX)\n\n
 comment	# a plain comment
 	\n
 comment	#[[ bracket\ncomment ]]
@@ -33,4 +33,4 @@ string	""
 keyword	endif
 	()\n
 keyword	target_link_libraries
-	(rikka PRIVATE fmt::fmt)\n
+	(hoowo PRIVATE fmt::fmt)\n

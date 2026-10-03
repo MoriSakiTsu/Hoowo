@@ -34,13 +34,13 @@ keyword	VALUES
 	 (
 number	1
 	, 
-string	'rikka'
+string	'hoowo'
 	, 
 string	'Hello, world!'
 	), (
 number	2
 	, 
-string	'rikka'
+string	'hoowo'
 	, 
 string	'It''s fine'
 	);\n\n

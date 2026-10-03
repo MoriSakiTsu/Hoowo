@@ -13,7 +13,7 @@ string	"note.dtd"
 meta	 [\n  <!ENTITY 
 keyword	author
 meta	 
-string	"Rikka"
+string	"Hoowo"
 meta	>\n  <!ELEMENT 
 keyword	note
 meta	 (

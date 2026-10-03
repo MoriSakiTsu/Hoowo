@@ -6,7 +6,7 @@ keyword	@font-face
 	 {\n  
 attribute	font-family
 	: 
-string	"Rikka"
+string	"Hoowo"
 	;\n  
 attribute	src
 	: 

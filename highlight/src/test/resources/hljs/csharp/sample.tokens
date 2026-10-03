@@ -4,7 +4,7 @@ keyword	using
 	 System.Collections.Generic;\n\n
 keyword	namespace
 	 
-title	RikkaHub.Domain
+title	Hoowo.Domain
 	;\n\n
 doctag	///
 comment	 
@@ -66,7 +66,7 @@ number	.5e-2
 	;\n        
 keyword	var
 	 path = 
-string	@"C:\\Users\\Rikka"
+string	@"C:\\Users\\Hoowo"
 	;\n        
 keyword	var
 	 message = 
@@ -94,7 +94,7 @@ keyword	new
 	 User<
 built_in	string
 	>(
-string	"Rikka"
+string	"Hoowo"
 	, 
 string	"active"
 	).GreetAsync());\n

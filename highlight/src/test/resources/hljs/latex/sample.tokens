@@ -15,11 +15,11 @@ params	#1
 keyword	\\begin
 	{document}\n
 keyword	\\section
-	{RikkaHub}\n
+	{Hoowo}\n
 keyword	\\label
 	{sec:intro}\n\n
 keyword	\\greet
-	{Rikka}\n
+	{Hoowo}\n
 keyword	\\[
 	\n  E = mc
 built_in	^

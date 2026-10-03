@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # build helper
-NAME="rikka"
+NAME="hoowo"
 readonly ROOT=/usr/local/share
 
 greet() {
