@@ -1,9 +1,9 @@
 plugins {
-    id("rikkahub.android.library.compose")
+    id("hoowo.android.library.compose")
 }
 
 android {
-    namespace = "me.rerere.material3"
+    namespace = "io.github.moriskakitsu.material3"
     sourceSets {
         named("main") {
             kotlin.srcDir("material-color-utilities/kotlin")

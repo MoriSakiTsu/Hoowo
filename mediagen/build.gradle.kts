@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("rikkahub.android.library")
+    id("hoowo.android.library")
     alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "me.rerere.mediagen"
+    namespace = "io.github.moriskakitsu.mediagen"
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions.optIn.add("kotlin.uuid.ExperimentalUuidApi")
     }

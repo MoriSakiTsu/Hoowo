@@ -1,11 +1,11 @@
-package me.rerere.demo
+package io.github.moriskakitsu.demo
 
 import kotlinx.coroutines.delay
 
 /**
  * A tiny chat session.
  *
- * @author Rikka
+ * @author Hoowo
  */
 class ChatSession(private val model: String) {
     var history: MutableList<String> = mutableListOf()

@@ -9,7 +9,7 @@ import java.util.Map;
  * TODO: support streaming replies.
  * Questions go to rikka@example.com, not to the tracker.
  *
- * @author Rikka
+ * @author Hoowo
  * @since 1.0
  */
 public final class ChatSession implements AutoCloseable {

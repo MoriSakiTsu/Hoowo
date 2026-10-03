@@ -1,7 +1,7 @@
 # Application settings
 ! Legacy comment style
 
-app.name = RikkaHub
+app.name = Hoowo
 app.version=1.4.0
 app.locale : zh-CN
 app.debug false
