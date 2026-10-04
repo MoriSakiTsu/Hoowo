@@ -45,6 +45,7 @@ import io.github.moriskakitsu.hoowo.ui.components.ai.ReasoningButton
 import io.github.moriskakitsu.hoowo.ui.components.ai.rememberModelListState
 import io.github.moriskakitsu.hoowo.ui.components.nav.BackButton
 import io.github.moriskakitsu.hoowo.ui.components.ui.CardGroup
+import io.github.moriskakitsu.hoowo.ui.hooks.rememberDeveloperMode
 import io.github.moriskakitsu.hoowo.ui.theme.CustomColors
 import io.github.moriskakitsu.hoowo.utils.plus
 import org.koin.androidx.compose.koinViewModel
@@ -53,8 +54,11 @@ import kotlin.uuid.Uuid
 @Composable
 fun SettingModelPage(vm: SettingVM = koinViewModel()) {
     val settings by vm.settings.collectAsStateWithLifecycle()
+    val developerMode by rememberDeveloperMode()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val pagerState = rememberPagerState { 2 }
+    // 提示词 tab 属于高级功能, 开发者选项关闭时只剩模型分配一页
+    val pageCount = if (developerMode) 2 else 1
+    val pagerState = rememberPagerState { pageCount }
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -68,21 +72,23 @@ fun SettingModelPage(vm: SettingVM = koinViewModel()) {
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = CustomColors.cardColorsOnSurfaceContainer.containerColor
-            ) {
-                NavigationBarItem(
-                    selected = pagerState.currentPage == 0,
-                    onClick = { scope.launch { pagerState.animateScrollToPage(0) } },
-                    icon = { Icon(HugeIcons.AiBrain01, null) },
-                    label = { Text(stringResource(R.string.setting_model_page_tab_model)) }
-                )
-                NavigationBarItem(
-                    selected = pagerState.currentPage == 1,
-                    onClick = { scope.launch { pagerState.animateScrollToPage(1) } },
-                    icon = { Icon(HugeIcons.AiEditing, null) },
-                    label = { Text(stringResource(R.string.setting_model_page_tab_prompt)) }
-                )
+            if (pageCount > 1) {
+                BottomAppBar(
+                    containerColor = CustomColors.cardColorsOnSurfaceContainer.containerColor
+                ) {
+                    NavigationBarItem(
+                        selected = pagerState.currentPage == 0,
+                        onClick = { scope.launch { pagerState.animateScrollToPage(0) } },
+                        icon = { Icon(HugeIcons.AiBrain01, null) },
+                        label = { Text(stringResource(R.string.setting_model_page_tab_model)) }
+                    )
+                    NavigationBarItem(
+                        selected = pagerState.currentPage == 1,
+                        onClick = { scope.launch { pagerState.animateScrollToPage(1) } },
+                        icon = { Icon(HugeIcons.AiEditing, null) },
+                        label = { Text(stringResource(R.string.setting_model_page_tab_prompt)) }
+                    )
+                }
             }
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -92,7 +98,13 @@ fun SettingModelPage(vm: SettingVM = koinViewModel()) {
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             when (page) {
-                0 -> ModelSettingsPage(settings = settings, vm = vm, contentPadding = contentPadding)
+                0 -> ModelSettingsPage(
+                    settings = settings,
+                    vm = vm,
+                    contentPadding = contentPadding,
+                    developerMode = developerMode,
+                )
+
                 1 -> PromptSettingsPage(settings = settings, vm = vm, contentPadding = contentPadding)
             }
         }
@@ -100,7 +112,12 @@ fun SettingModelPage(vm: SettingVM = koinViewModel()) {
 }
 
 @Composable
-private fun ModelSettingsPage(settings: Settings, vm: SettingVM, contentPadding: PaddingValues) {
+private fun ModelSettingsPage(
+    settings: Settings,
+    vm: SettingVM,
+    contentPadding: PaddingValues,
+    developerMode: Boolean,
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = contentPadding + PaddingValues(horizontal = 16.dp),
@@ -116,50 +133,53 @@ private fun ModelSettingsPage(settings: Settings, vm: SettingVM, contentPadding:
             )
         }
         item {
-            ModelSettingItem(
-                title = stringResource(R.string.setting_model_page_fast_model),
-                description = stringResource(R.string.setting_model_page_fast_model_desc),
-                modelId = settings.fastModelId,
-                providers = settings.providers,
-                onSelect = { vm.updateSettings(settings.copy(fastModelId = it.id)) },
-                reasoningLevel = settings.fastModelReasoningLevel,
-                onUpdateReasoningLevel = {
-                    vm.updateSettings(settings.copy(fastModelReasoningLevel = it))
-                },
-            )
-        }
-        item {
             SuggestionSettingItem(
                 settings = settings,
                 vm = vm,
             )
         }
-        item {
-            ModelSettingItem(
-                title = stringResource(R.string.setting_model_page_translate_model),
-                description = stringResource(R.string.setting_model_page_translate_model_desc),
-                modelId = settings.translateModeId,
-                providers = settings.providers,
-                onSelect = { vm.updateSettings(settings.copy(translateModeId = it.id)) },
-            )
-        }
-        item {
-            ModelSettingItem(
-                title = stringResource(R.string.setting_model_page_ocr_model),
-                description = stringResource(R.string.setting_model_page_ocr_model_desc),
-                modelId = settings.ocrModelId,
-                providers = settings.providers,
-                onSelect = { vm.updateSettings(settings.copy(ocrModelId = it.id)) },
-            )
-        }
-        item {
-            ModelSettingItem(
-                title = stringResource(R.string.setting_model_page_compress_model),
-                description = stringResource(R.string.setting_model_page_compress_model_desc),
-                modelId = settings.compressModelId,
-                providers = settings.providers,
-                onSelect = { vm.updateSettings(settings.copy(compressModelId = it.id)) },
-            )
+        // 以下模型分配用于标题生成、翻译、OCR、上下文压缩等高级功能
+        if (developerMode) {
+            item {
+                ModelSettingItem(
+                    title = stringResource(R.string.setting_model_page_fast_model),
+                    description = stringResource(R.string.setting_model_page_fast_model_desc),
+                    modelId = settings.fastModelId,
+                    providers = settings.providers,
+                    onSelect = { vm.updateSettings(settings.copy(fastModelId = it.id)) },
+                    reasoningLevel = settings.fastModelReasoningLevel,
+                    onUpdateReasoningLevel = {
+                        vm.updateSettings(settings.copy(fastModelReasoningLevel = it))
+                    },
+                )
+            }
+            item {
+                ModelSettingItem(
+                    title = stringResource(R.string.setting_model_page_translate_model),
+                    description = stringResource(R.string.setting_model_page_translate_model_desc),
+                    modelId = settings.translateModeId,
+                    providers = settings.providers,
+                    onSelect = { vm.updateSettings(settings.copy(translateModeId = it.id)) },
+                )
+            }
+            item {
+                ModelSettingItem(
+                    title = stringResource(R.string.setting_model_page_ocr_model),
+                    description = stringResource(R.string.setting_model_page_ocr_model_desc),
+                    modelId = settings.ocrModelId,
+                    providers = settings.providers,
+                    onSelect = { vm.updateSettings(settings.copy(ocrModelId = it.id)) },
+                )
+            }
+            item {
+                ModelSettingItem(
+                    title = stringResource(R.string.setting_model_page_compress_model),
+                    description = stringResource(R.string.setting_model_page_compress_model_desc),
+                    modelId = settings.compressModelId,
+                    providers = settings.providers,
+                    onSelect = { vm.updateSettings(settings.copy(compressModelId = it.id)) },
+                )
+            }
         }
     }
 }

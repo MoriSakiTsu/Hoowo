@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ import io.github.moriskakitsu.hoowo.Screen
 import io.github.moriskakitsu.hoowo.ui.components.nav.BackButton
 import io.github.moriskakitsu.hoowo.ui.components.ui.CardGroup
 import io.github.moriskakitsu.hoowo.ui.context.LocalNavController
+import io.github.moriskakitsu.hoowo.ui.hooks.rememberDeveloperMode
 import io.github.moriskakitsu.hoowo.ui.theme.CustomColors
 import io.github.moriskakitsu.hoowo.utils.plus
 
@@ -33,6 +35,7 @@ import io.github.moriskakitsu.hoowo.utils.plus
 fun SettingPreferencesPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val navController = LocalNavController.current
+    val developerMode by rememberDeveloperMode()
 
     Scaffold(
         topBar = {
@@ -66,12 +69,6 @@ fun SettingPreferencesPage() {
                         supportingContent = { Text(stringResource(R.string.setting_page_preferences_theme_desc)) },
                     )
                     item(
-                        onClick = { navController.navigate(Screen.SettingPreferencesNotification) },
-                        leadingContent = { Icon(HugeIcons.Notification01, null) },
-                        headlineContent = { Text(stringResource(R.string.setting_page_preferences_notification)) },
-                        supportingContent = { Text(stringResource(R.string.setting_page_preferences_notification_desc)) },
-                    )
-                    item(
                         onClick = { navController.navigate(Screen.SettingPreferencesGeneral) },
                         leadingContent = { Icon(HugeIcons.Settings03, null) },
                         headlineContent = { Text(stringResource(R.string.setting_page_preferences_general)) },
@@ -83,12 +80,21 @@ fun SettingPreferencesPage() {
                         headlineContent = { Text(stringResource(R.string.setting_page_preferences_ui)) },
                         supportingContent = { Text(stringResource(R.string.setting_page_preferences_ui_desc)) },
                     )
-                    item(
-                        onClick = { navController.navigate(Screen.SettingPreferencesNetwork) },
-                        leadingContent = { Icon(HugeIcons.Internet, null) },
-                        headlineContent = { Text(stringResource(R.string.setting_page_preferences_network)) },
-                        supportingContent = { Text(stringResource(R.string.setting_page_preferences_network_desc)) },
-                    )
+                    // 通知提醒与网络请求属于高级设置, 仅在开发者选项开启时显示
+                    if (developerMode) {
+                        item(
+                            onClick = { navController.navigate(Screen.SettingPreferencesNotification) },
+                            leadingContent = { Icon(HugeIcons.Notification01, null) },
+                            headlineContent = { Text(stringResource(R.string.setting_page_preferences_notification)) },
+                            supportingContent = { Text(stringResource(R.string.setting_page_preferences_notification_desc)) },
+                        )
+                        item(
+                            onClick = { navController.navigate(Screen.SettingPreferencesNetwork) },
+                            leadingContent = { Icon(HugeIcons.Internet, null) },
+                            headlineContent = { Text(stringResource(R.string.setting_page_preferences_network)) },
+                            supportingContent = { Text(stringResource(R.string.setting_page_preferences_network_desc)) },
+                        )
+                    }
                 }
             }
         }

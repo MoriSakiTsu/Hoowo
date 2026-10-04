@@ -63,6 +63,7 @@ import io.github.moriskakitsu.hoowo.data.db.MigrationState
 import io.github.moriskakitsu.hoowo.data.event.AppEvent
 import io.github.moriskakitsu.hoowo.data.event.AppEventBus
 import io.github.moriskakitsu.hoowo.ui.activity.SafeModeActivity
+import io.github.moriskakitsu.hoowo.ui.components.nav.DeveloperOnlyScreen
 import io.github.moriskakitsu.hoowo.ui.components.ui.TTSController
 import io.github.moriskakitsu.hoowo.ui.context.LocalASRState
 import io.github.moriskakitsu.hoowo.ui.context.LocalNavController
@@ -110,7 +111,6 @@ import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingPreferencesGeneralPa
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingPreferencesNetworkPage
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingPreferencesUIPage
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingThemePage
-import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingDonatePage
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingFilesPage
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingMcpPage
 import io.github.moriskakitsu.hoowo.ui.pages.setting.SettingModelPage
@@ -363,27 +363,39 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.AssistantMemory> { key ->
-                                AssistantMemoryPage(key.id)
+                                DeveloperOnlyScreen {
+                                    AssistantMemoryPage(key.id)
+                                }
                             }
 
                             entry<Screen.AssistantRequest> { key ->
-                                AssistantRequestPage(key.id)
+                                DeveloperOnlyScreen {
+                                    AssistantRequestPage(key.id)
+                                }
                             }
 
                             entry<Screen.AssistantMcp> { key ->
-                                AssistantMcpPage(key.id)
+                                DeveloperOnlyScreen {
+                                    AssistantMcpPage(key.id)
+                                }
                             }
 
                             entry<Screen.AssistantLocalTool> { key ->
-                                AssistantLocalToolPage(key.id)
+                                DeveloperOnlyScreen {
+                                    AssistantLocalToolPage(key.id)
+                                }
                             }
 
                             entry<Screen.AssistantInjections> { key ->
-                                AssistantExtensionsPage(key.id)
+                                DeveloperOnlyScreen {
+                                    AssistantExtensionsPage(key.id)
+                                }
                             }
 
                             entry<Screen.Translator> {
-                                TranslatorPage()
+                                DeveloperOnlyScreen {
+                                    TranslatorPage()
+                                }
                             }
 
                             entry<Screen.Setting> {
@@ -395,7 +407,9 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.ImageGen> {
-                                ImageGenPage()
+                                DeveloperOnlyScreen {
+                                    ImageGenPage()
+                                }
                             }
 
                             entry<Screen.WebView> { key ->
@@ -440,7 +454,9 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.SettingModels> {
-                                SettingModelPage()
+                                DeveloperOnlyScreen {
+                                    SettingModelPage()
+                                }
                             }
 
                             entry<Screen.SettingAbout> {
@@ -448,24 +464,28 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.SettingSearch> {
-                                SettingSearchPage()
+                                DeveloperOnlyScreen {
+                                    SettingSearchPage()
+                                }
                             }
 
                             entry<Screen.SettingSearchDetail> { key ->
                                 val id = Uuid.parse(key.serviceId)
-                                SettingSearchDetailPage(id)
+                                DeveloperOnlyScreen {
+                                    SettingSearchDetailPage(id)
+                                }
                             }
 
                             entry<Screen.SettingSpeech> {
-                                SettingSpeechPage()
+                                DeveloperOnlyScreen {
+                                    SettingSpeechPage()
+                                }
                             }
 
                             entry<Screen.SettingMcp> {
-                                SettingMcpPage()
-                            }
-
-                            entry<Screen.SettingDonate> {
-                                SettingDonatePage()
+                                DeveloperOnlyScreen {
+                                    SettingMcpPage()
+                                }
                             }
 
                             entry<Screen.SettingFiles> {
@@ -473,11 +493,15 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.SettingWeb> {
-                                SettingWebPage()
+                                DeveloperOnlyScreen {
+                                    SettingWebPage()
+                                }
                             }
 
                             entry<Screen.Debug> {
-                                DebugPage()
+                                DeveloperOnlyScreen {
+                                    DebugPage()
+                                }
                             }
 
                             entry<Screen.Log> {
@@ -489,39 +513,55 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.QuickMessages> {
-                                QuickMessagesPage()
+                                DeveloperOnlyScreen {
+                                    QuickMessagesPage()
+                                }
                             }
 
                             entry<Screen.Prompts> {
-                                PromptPage()
+                                DeveloperOnlyScreen {
+                                    PromptPage()
+                                }
                             }
 
                             entry<Screen.Skills> {
-                                SkillsPage()
+                                DeveloperOnlyScreen {
+                                    SkillsPage()
+                                }
                             }
 
                             entry<Screen.Workspaces> {
-                                WorkspacePage()
+                                DeveloperOnlyScreen {
+                                    WorkspacePage()
+                                }
                             }
 
                             entry<Screen.WorkspaceDetail> { key ->
-                                WorkspaceDetailPage(key.id)
+                                DeveloperOnlyScreen {
+                                    WorkspaceDetailPage(key.id)
+                                }
                             }
 
                             entry<Screen.WorkspaceTerminal> { key ->
-                                WorkspaceTerminalPage(key.id)
+                                DeveloperOnlyScreen {
+                                    WorkspaceTerminalPage(key.id)
+                                }
                             }
 
                             entry<Screen.WorkspaceFileEditor> { key ->
-                                WorkspaceFileEditorPage(
-                                    id = key.id,
-                                    area = WorkspaceStorageArea.valueOf(key.area),
-                                    path = key.path,
-                                )
+                                DeveloperOnlyScreen {
+                                    WorkspaceFileEditorPage(
+                                        id = key.id,
+                                        area = WorkspaceStorageArea.valueOf(key.area),
+                                        path = key.path,
+                                    )
+                                }
                             }
 
                             entry<Screen.SkillDetail> { key ->
-                                SkillDetailPage(skillName = key.skillName)
+                                DeveloperOnlyScreen {
+                                    SkillDetailPage(skillName = key.skillName)
+                                }
                             }
 
                             entry<Screen.MessageSearch> {
@@ -529,7 +569,9 @@ class RouteActivity : ComponentActivity() {
                             }
 
                             entry<Screen.Stats> {
-                                StatsPage()
+                                DeveloperOnlyScreen {
+                                    StatsPage()
+                                }
                             }
                         }
                     )
@@ -685,9 +727,6 @@ sealed interface Screen : NavKey {
 
     @Serializable
     data object SettingMcp : Screen
-
-    @Serializable
-    data object SettingDonate : Screen
 
     @Serializable
     data object SettingFiles : Screen

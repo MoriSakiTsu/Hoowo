@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact">Contact Developer</string>
+  <string name="about_page_contact_email">Email</string>
+  <string name="about_page_contact_email_copied">Email copied to clipboard</string>
+  <string name="about_page_contact_no_email_app">No email app found, address copied to clipboard</string>
+  <string name="about_page_contact_qq">QQ</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">License</string>
   <string name="about_page_system">System</string>
@@ -319,11 +324,6 @@
   <string name="deep_thinking">Deep Thinking</string>
   <string name="deep_thinking_seconds">Thought for %1$.1f seconds</string>
   <string name="delete">Delete</string>
-  <string name="donate_page_afdian_desc">For 🇨🇳 users</string>
-  <string name="donate_page_donation_methods">Donation Methods</string>
-  <string name="donate_page_kofi_desc">For Global Users</string>
-  <string name="donate_page_sponsor_list">Sponsor List</string>
-  <string name="donate_page_title">Donate</string>
   <string name="edit">Edit</string>
   <string name="editing">Editing</string>
   <string name="emoji_picker_search_placeholder">Search emojis...</string>
@@ -822,6 +822,8 @@
   <string name="setting_page_built_in_tools_search_desc">Enable Google Search integration</string>
   <string name="setting_page_built_in_tools_url_context">URL Context</string>
   <string name="setting_page_built_in_tools_url_context_desc">Enable URL content processing</string>
+  <string name="setting_page_advanced_settings">Advanced Settings</string>
+  <string name="setting_page_basic_settings">Basic Settings</string>
   <string name="setting_page_chat_storage">Storage Management</string>
   <string name="setting_page_chat_storage_desc">%1$d files, %2$.2f MB</string>
   <string name="setting_page_code_display_settings">Code Display</string>
@@ -837,6 +839,8 @@
   <string name="setting_page_data_settings">Data Settings</string>
   <string name="setting_page_default_model">Default Model and Prompt</string>
   <string name="setting_page_default_model_desc">Set default models for each feature</string>
+  <string name="setting_page_developer_mode">Developer Options</string>
+  <string name="setting_page_developer_mode_desc">Show advanced features such as model services, MCP, workspaces and agent skills. Off by default.</string>
   <string name="setting_page_display_setting">Display Settings</string>
   <string name="setting_page_display_setting_desc">Manage display settings</string>
   <string name="setting_page_preferences">Preferences</string>
@@ -860,8 +864,6 @@
   <string name="setting_page_preferences_network_auto_retry_desc">Retry model requests up to 3 times when network errors occur.</string>
   <string name="setting_page_documentation">Documentation</string>
   <string name="setting_page_documentation_desc">View app usage instructions and help documentation</string>
-  <string name="setting_page_donate">Donate</string>
-  <string name="setting_page_donate_desc">If you like it, sponsor the author\'s work</string>
   <string name="setting_page_dynamic_color">Dynamic Color</string>
   <string name="setting_page_dynamic_color_desc">Generate the app theme colors dynamically from your wallpaper</string>
   <string name="setting_page_extensions">Extensions</string>
@@ -891,10 +893,6 @@
   <string name="setting_page_share">Share</string>
   <string name="setting_page_share_desc">Share this app with friends</string>
   <string name="setting_page_share_text">Hoowo - Open Source Android AI Assistant\n\nWebsite: https://github.com/MoriSakiTsu/Hoowo</string>
-  <string name="setting_page_sponsor_alert_confirm">Donate</string>
-  <string name="setting_page_sponsor_alert_desc">You have launched the app over 100 times! If you enjoy using it, please consider supporting the developer.</string>
-  <string name="setting_page_sponsor_alert_dismiss">Not Now</string>
-  <string name="setting_page_sponsor_alert_title">Support the Developer</string>
   <string name="setting_page_theme_setting">Theme</string>
   <string name="setting_page_theme_setting_desc">Customize app color scheme</string>
   <string name="setting_theme_page_preset_themes">Preset Themes</string>
@@ -1152,9 +1150,12 @@
   <string name="tts">TTS</string>
   <string name="unpin_chat">Unpin the Chat</string>
   <string name="update_card_check_failed">Check update failed</string>
+  <string name="update_card_check_failed_hint">Could not reach GitHub. Please check your network and try again later.</string>
   <string name="update_card_close">Close</string>
   <string name="update_card_downloading">Downloading, please check status bar for progress</string>
   <string name="update_card_new_version_found">New version found %s</string>
+  <string name="update_card_open_releases">Open Releases page</string>
+  <string name="update_card_open_releases_desc">Download the latest version in your browser</string>
   <string name="update_card_unknown_error">Unknown error</string>
   <string name="upload_file">Upload File</string>
   <string name="use_web_search">Web Search</string>

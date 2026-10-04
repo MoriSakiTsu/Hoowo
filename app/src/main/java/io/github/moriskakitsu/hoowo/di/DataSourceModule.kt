@@ -16,7 +16,6 @@ import io.github.moriskakitsu.hoowo.data.ai.GenerationLoop
 import io.github.moriskakitsu.hoowo.data.ai.TranslationHandler
 import io.github.moriskakitsu.hoowo.data.ai.transformers.TemplateTransformer
 import io.github.moriskakitsu.hoowo.data.api.HoowoAPI
-import io.github.moriskakitsu.hoowo.data.api.SponsorAPI
 import io.github.moriskakitsu.hoowo.data.datastore.SettingsStore
 import io.github.moriskakitsu.hoowo.data.sync.BackupManager
 import io.github.moriskakitsu.hoowo.data.db.AppDatabaseFactory
@@ -185,10 +184,6 @@ val dataSourceModule = module {
             })
             .build()
         client.also { SearchService.init(it, get()) }
-    }
-
-    single {
-        SponsorAPI.create(get())
     }
 
     single {

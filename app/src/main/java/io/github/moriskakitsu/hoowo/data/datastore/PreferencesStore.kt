@@ -181,9 +181,6 @@ class SettingsStore(
         // 统计
         val LAUNCH_COUNT = intPreferencesKey("launch_count")
 
-        // 赞助提醒
-        val SPONSOR_ALERT_DISMISSED_AT = intPreferencesKey("sponsor_alert_dismissed_at")
-
         // Uses the same DataStore singleton without starting settings flows or requiring Koin.
         internal suspend fun restoreBeforeInitialization(context: Context, settings: Settings) {
             require(!settings.init) { "Cannot restore uninitialized settings" }
@@ -247,7 +244,6 @@ class SettingsStore(
                 preferences[WEB_SERVER_LOCALHOST_ONLY] = settings.webServerLocalhostOnly
                 preferences[BACKUP_REMINDER_CONFIG] = JsonInstant.encodeToString(settings.backupReminderConfig)
                 preferences[LAUNCH_COUNT] = settings.launchCount
-                preferences[SPONSOR_ALERT_DISMISSED_AT] = settings.sponsorAlertDismissedAt
             }
         }
     }
@@ -347,7 +343,6 @@ class SettingsStore(
                     JsonInstant.decodeFromString(it)
                 } ?: BackupReminderConfig(),
                 launchCount = preferences[LAUNCH_COUNT] ?: 0,
-                sponsorAlertDismissedAt = preferences[SPONSOR_ALERT_DISMISSED_AT] ?: 0,
             )
         }
         .map {
@@ -608,7 +603,6 @@ data class Settings(
     val webServerLocalhostOnly: Boolean = false,
     val backupReminderConfig: BackupReminderConfig = BackupReminderConfig(),
     val launchCount: Int = 0,
-    val sponsorAlertDismissedAt: Int = 0,
 ) {
     companion object {
         // 构造一个用于初始化的settings, 但它不能用于保存，防止使用初始值存储
@@ -715,6 +709,15 @@ data class BackupReminderConfig(
 )
 
 fun Settings.isNotConfigured() = providers.all { it.models.isEmpty() }
+
+/**
+ * 是否已开启"开发者选项"。
+ *
+ * 关闭时（默认）只显示面向普通学生的基础功能；开启后才显示模型服务、MCP、
+ * 工作区、Agent 技能等高级功能。此开关只影响 UI 可见性，不会丢失任何已保存的数据，
+ * 因此可以随时关闭。
+ */
+val Settings.isDeveloperMode: Boolean get() = developerMode
 
 fun Settings.findModelById(uuid: Uuid?, fallback: Uuid? = null): Model? {
     if (uuid == null && fallback == null) return null

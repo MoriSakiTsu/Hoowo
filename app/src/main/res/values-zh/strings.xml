@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact">联系开发者</string>
+  <string name="about_page_contact_email">邮箱</string>
+  <string name="about_page_contact_email_copied">邮箱已复制到剪贴板</string>
+  <string name="about_page_contact_no_email_app">未找到邮件应用，邮箱已复制到剪贴板</string>
+  <string name="about_page_contact_qq">QQ</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">License</string>
   <string name="about_page_system">系统</string>
@@ -319,11 +324,6 @@
   <string name="deep_thinking">深度思考</string>
   <string name="deep_thinking_seconds">思考了 %1$.1f 秒</string>
   <string name="delete">删除</string>
-  <string name="donate_page_afdian_desc">适用于🇨🇳用户</string>
-  <string name="donate_page_donation_methods">赞助方式</string>
-  <string name="donate_page_kofi_desc">面向全球用户</string>
-  <string name="donate_page_sponsor_list">赞助用户列表</string>
-  <string name="donate_page_title">赞助</string>
   <string name="edit">编辑</string>
   <string name="editing">编辑中</string>
   <string name="emoji_picker_search_placeholder">搜索表情符号...</string>
@@ -812,6 +812,8 @@
   <string name="setting_page_built_in_tools_search_desc">启用 Google 搜索集成</string>
   <string name="setting_page_built_in_tools_url_context">URL 上下文</string>
   <string name="setting_page_built_in_tools_url_context_desc">启用 URL 内容处理</string>
+  <string name="setting_page_advanced_settings">高级设置</string>
+  <string name="setting_page_basic_settings">基础设置</string>
   <string name="setting_page_chat_storage">存储管理</string>
   <string name="setting_page_chat_storage_desc">%1$d 个文件，%2$.2f MB</string>
   <string name="setting_page_code_display_settings">代码显示</string>
@@ -827,12 +829,12 @@
   <string name="setting_page_data_settings">数据设置</string>
   <string name="setting_page_default_model">默认模型和提示词</string>
   <string name="setting_page_default_model_desc">设置各个功能的默认模型</string>
+  <string name="setting_page_developer_mode">开发者选项</string>
+  <string name="setting_page_developer_mode_desc">显示模型服务、MCP、工作区、Agent 技能等高级功能。默认关闭。</string>
   <string name="setting_page_display_setting">显示设置</string>
   <string name="setting_page_display_setting_desc">管理显示设置</string>
   <string name="setting_page_documentation">使用文档</string>
   <string name="setting_page_documentation_desc">查看应用使用说明和帮助文档</string>
-  <string name="setting_page_donate">赞助</string>
-  <string name="setting_page_donate_desc">如果你喜欢这个应用，请赞助作者的工作</string>
   <string name="setting_page_dynamic_color">动态颜色</string>
   <string name="setting_page_dynamic_color_desc">是否基于壁纸动态生成 app 主题配色</string>
   <string name="setting_page_extensions">扩展管理</string>
@@ -862,10 +864,6 @@
   <string name="setting_page_share">分享</string>
   <string name="setting_page_share_desc">分享本APP给朋友</string>
   <string name="setting_page_share_text">Hoowo - 开源安卓AI助手\n\n官网: https://github.com/MoriSakiTsu/Hoowo</string>
-  <string name="setting_page_sponsor_alert_confirm">捐赠</string>
-  <string name="setting_page_sponsor_alert_desc">您已启动应用超过100次！如果您喜欢使用它，请考虑支持开发者。</string>
-  <string name="setting_page_sponsor_alert_dismiss">暂不</string>
-  <string name="setting_page_sponsor_alert_title">支持开发者</string>
   <string name="setting_page_theme_setting">主题</string>
   <string name="setting_page_theme_setting_desc">自定义应用配色方案</string>
   <string name="setting_theme_page_preset_themes">预设主题</string>
@@ -1119,9 +1117,12 @@ mDNS 地址：使用 .local 主机名，同一网络中的其他设备可通过�
   <string name="tts">语音</string>
   <string name="unpin_chat">取消置顶聊天</string>
   <string name="update_card_check_failed">检查更新失败</string>
+  <string name="update_card_check_failed_hint">无法连接到 GitHub，请检查网络后重试。</string>
   <string name="update_card_close">关闭</string>
   <string name="update_card_downloading">正在下载，请在状态栏查看进度</string>
   <string name="update_card_new_version_found">发现新版本 %s</string>
+  <string name="update_card_open_releases">前往 Releases 页面</string>
+  <string name="update_card_open_releases_desc">在浏览器中下载最新版本</string>
   <string name="update_card_unknown_error">未知错误</string>
   <string name="upload_file">上传文件</string>
   <string name="use_web_search">网络搜索</string>

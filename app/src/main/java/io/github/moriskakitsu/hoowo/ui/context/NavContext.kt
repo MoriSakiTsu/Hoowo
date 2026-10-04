@@ -5,6 +5,12 @@ import androidx.navigation3.runtime.NavKey
 import io.github.moriskakitsu.hoowo.Screen
 
 class Navigator(private val backStack: MutableList<NavKey>) {
+    /**
+     * 当前返回栈中的页面数量。栈底页面（通常是聊天页）为 1。
+     * 用于判断能否安全回退，见 [io.github.moriskakitsu.hoowo.ui.components.nav.DeveloperOnlyScreen]。
+     */
+    val backStackSize: Int get() = backStack.size
+
     fun navigate(screen: Screen, builder: NavigateOptionsBuilder.() -> Unit = {}) {
         val options = NavigateOptionsBuilder().apply(builder)
 

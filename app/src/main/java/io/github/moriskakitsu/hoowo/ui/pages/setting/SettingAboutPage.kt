@@ -1,10 +1,15 @@
 package io.github.moriskakitsu.hoowo.ui.pages.setting
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.widget.Toast
 import me.rerere.hugeicons.HugeIcons
 import me.rerere.hugeicons.stroke.Code
+import me.rerere.hugeicons.stroke.CustomerService
 import me.rerere.hugeicons.stroke.Earth
 import me.rerere.hugeicons.stroke.File02
 import me.rerere.hugeicons.stroke.Github
+import me.rerere.hugeicons.stroke.Mail01
 import me.rerere.hugeicons.stroke.SmartPhone01
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -39,8 +44,10 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import io.github.moriskakitsu.hoowo.BuildConfig
+import io.github.moriskakitsu.hoowo.Hoowo
 import io.github.moriskakitsu.hoowo.R
 import io.github.moriskakitsu.hoowo.Screen
 import io.github.moriskakitsu.hoowo.ui.components.nav.BackButton
@@ -51,6 +58,7 @@ import io.github.moriskakitsu.hoowo.ui.theme.CustomColors
 import io.github.moriskakitsu.hoowo.utils.SoundEffectPlayer
 import io.github.moriskakitsu.hoowo.utils.openUrl
 import io.github.moriskakitsu.hoowo.utils.plus
+import io.github.moriskakitsu.hoowo.utils.writeClipboardText
 
 @Composable
 fun SettingAboutPage() {
@@ -168,16 +176,47 @@ fun SettingAboutPage() {
                         modifier = Modifier.padding(horizontal = 8.dp),
                     ) {
                         item(
-                            onClick = { context.openUrl("https://github.com/MoriSakiTsu/Hoowo") },
+                            onClick = { context.openUrl(Hoowo.REPO_URL) },
                             leadingContent = { Icon(HugeIcons.Github, null) },
-                            supportingContent = { Text("https://github.com/MoriSakiTsu/Hoowo") },
+                            supportingContent = { Text(Hoowo.REPO_URL) },
                             headlineContent = { Text(stringResource(R.string.about_page_github)) },
                         )
                         item(
-                            onClick = { context.openUrl("https://github.com/MoriSakiTsu/Hoowo/blob/master/LICENSE") },
+                            onClick = { context.openUrl(Hoowo.LICENSE_URL) },
                             leadingContent = { Icon(HugeIcons.File02, null) },
-                            supportingContent = { Text("https://github.com/MoriSakiTsu/Hoowo/blob/master/LICENSE") },
+                            supportingContent = { Text(Hoowo.LICENSE_URL) },
                             headlineContent = { Text(stringResource(R.string.about_page_license)) },
+                        )
+                    }
+                }
+
+                item {
+                    val emailToast = stringResource(R.string.about_page_contact_email_copied)
+                    CardGroup(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        title = { Text(stringResource(R.string.about_page_contact)) },
+                    ) {
+                        item(
+                            onClick = { context.writeClipboardText(Hoowo.DEVELOPER_QQ) },
+                            leadingContent = { Icon(HugeIcons.CustomerService, null) },
+                            supportingContent = { Text(Hoowo.DEVELOPER_QQ) },
+                            headlineContent = { Text(stringResource(R.string.about_page_contact_qq)) },
+                        )
+                        item(
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                    data = "mailto:${Hoowo.DEVELOPER_EMAIL}".toUri()
+                                }
+                                try {
+                                    context.startActivity(intent)
+                                } catch (e: ActivityNotFoundException) {
+                                    context.writeClipboardText(Hoowo.DEVELOPER_EMAIL)
+                                    Toast.makeText(context, emailToast, Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            leadingContent = { Icon(HugeIcons.Mail01, null) },
+                            supportingContent = { Text(Hoowo.DEVELOPER_EMAIL) },
+                            headlineContent = { Text(stringResource(R.string.about_page_contact_email)) },
                         )
                     }
                 }

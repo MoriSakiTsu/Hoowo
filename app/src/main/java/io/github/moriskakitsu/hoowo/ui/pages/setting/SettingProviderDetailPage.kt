@@ -117,6 +117,7 @@ import io.github.moriskakitsu.hoowo.ui.components.ui.longPressReorder
 import io.github.moriskakitsu.hoowo.ui.components.ui.rememberShareSheetState
 import io.github.moriskakitsu.hoowo.ui.context.LocalNavController
 import io.github.moriskakitsu.hoowo.ui.context.LocalToaster
+import io.github.moriskakitsu.hoowo.ui.hooks.rememberDeveloperMode
 import io.github.moriskakitsu.hoowo.ui.hooks.useEditState
 import io.github.moriskakitsu.hoowo.ui.pages.assistant.detail.CustomBodies
 import io.github.moriskakitsu.hoowo.ui.pages.assistant.detail.CustomHeaders
@@ -138,9 +139,12 @@ import kotlin.uuid.Uuid
 @Composable
 fun SettingProviderDetailPage(id: Uuid, vm: SettingVM = koinViewModel()) {
     val settings by vm.settings.collectAsStateWithLifecycle()
+    val developerMode by rememberDeveloperMode()
     val navController = LocalNavController.current
     val provider = settings.providers.find { it.id == id } ?: return
-    val pager = rememberPagerState { 3 }
+    // 「高级设置」tab 包含自定义请求头等高级项, 开发者选项关闭时不显示
+    val pageCount = if (developerMode) 3 else 2
+    val pager = rememberPagerState { pageCount }
     val scope = rememberCoroutineScope()
     val toaster = LocalToaster.current
     val context = LocalContext.current
@@ -219,16 +223,18 @@ fun SettingProviderDetailPage(id: Uuid, vm: SettingVM = koinViewModel()) {
                         }
                     }
                 )
-                NavigationBarItem(
-                    selected = pager.currentPage == 2,
-                    label = { Text(stringResource(id = R.string.setting_provider_page_advanced_settings)) },
-                    icon = { Icon(HugeIcons.Settings03, null) },
-                    onClick = {
-                        scope.launch {
-                            pager.animateScrollToPage(2)
+                if (developerMode) {
+                    NavigationBarItem(
+                        selected = pager.currentPage == 2,
+                        label = { Text(stringResource(id = R.string.setting_provider_page_advanced_settings)) },
+                        icon = { Icon(HugeIcons.Settings03, null) },
+                        onClick = {
+                            scope.launch {
+                                pager.animateScrollToPage(2)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     ) {
@@ -531,7 +537,10 @@ private fun ModelSettingsForm(
     isEdit: Boolean,
     parentProvider: ProviderSetting? = null
 ) {
-    val pagerState = rememberPagerState { 3 }
+    val developerMode by rememberDeveloperMode()
+    // 模型的高级参数与内置工具属于高级功能, 开发者选项关闭时只保留基本设置
+    val pageCount = if (developerMode) 3 else 1
+    val pagerState = rememberPagerState { pageCount }
     val scope = rememberCoroutineScope()
 
     fun setModelId(id: String) {
@@ -563,24 +572,26 @@ private fun ModelSettingsForm(
                 },
                 text = { Text(stringResource(R.string.setting_provider_page_basic_settings)) }
             )
-            Tab(
-                selected = pagerState.currentPage == 1,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(1)
-                    }
-                },
-                text = { Text(stringResource(R.string.setting_provider_page_advanced_settings)) }
-            )
-            Tab(
-                selected = pagerState.currentPage == 2,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(2)
-                    }
-                },
-                text = { Text(stringResource(R.string.setting_page_built_in_tools)) }
-            )
+            if (developerMode) {
+                Tab(
+                    selected = pagerState.currentPage == 1,
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(1)
+                        }
+                    },
+                    text = { Text(stringResource(R.string.setting_provider_page_advanced_settings)) }
+                )
+                Tab(
+                    selected = pagerState.currentPage == 2,
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(2)
+                        }
+                    },
+                    text = { Text(stringResource(R.string.setting_page_built_in_tools)) }
+                )
+            }
         }
 
         HorizontalPager(
