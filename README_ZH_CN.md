@@ -50,6 +50,14 @@
 ./gradlew lint                   # 运行 Android Lint
 ```
 
+> [!IMPORTANT]
+> `gradle/wrapper/gradle-wrapper.properties` 中的 Gradle 下载地址指向腾讯云镜像
+> （`mirrors.cloud.tencent.com/gradle`），而非官方的 `services.gradle.org` —— 因为
+> Gradle 本体有约 134 MB，而官方地址在中国大陆无法访问。镜像提供的文件与官方完全一致。
+> 如果你在海外、或镜像不可用，把那一行改回：
+> `https\://services.gradle.org/distributions/gradle-<版本>-bin.zip`
+> Gradle 按下载地址分别缓存发行版，所以切换后会重新下载一次。
+
 > [!NOTE]
 > Windows 上若项目路径包含非 ASCII 字符，请在 `gradle.properties` 中添加
 > `android.overridePathCheck=true`。APK 构建可以正常进行，但 `./gradlew test`

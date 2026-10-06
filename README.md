@@ -51,6 +51,16 @@ Build commands:
 ./gradlew lint                   # Run Android Lint
 ```
 
+> [!IMPORTANT]
+> The Gradle distribution URL in `gradle/wrapper/gradle-wrapper.properties` points to the
+> Tencent Cloud mirror (`mirrors.cloud.tencent.com/gradle`) instead of the official
+> `services.gradle.org`, because the official host is unreachable from mainland China and
+> Gradle itself is a ~134 MB download. The file served by the mirror is identical to the
+> official one. If you are outside mainland China, or the mirror is unavailable, change that
+> line back to:
+> `https\://services.gradle.org/distributions/gradle-<version>-bin.zip`
+> Gradle caches distributions per-URL, so switching re-downloads it once.
+
 > [!NOTE]
 > If your project path contains non-ASCII characters on Windows, add
 > `android.overridePathCheck=true` to `gradle.properties`. Building the APK still

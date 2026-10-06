@@ -50,6 +50,14 @@
 ./gradlew lint                   # 執行 Android Lint
 ```
 
+> [!IMPORTANT]
+> `gradle/wrapper/gradle-wrapper.properties` 中的 Gradle 下載位址指向騰訊雲鏡像
+> （`mirrors.cloud.tencent.com/gradle`），而非官方的 `services.gradle.org` —— 因為
+> Gradle 本體約 134 MB，而官方位址在中國大陸無法存取。鏡像提供的檔案與官方完全一致。
+> 如果你在海外、或鏡像不可用，請把該行改回：
+> `https\://services.gradle.org/distributions/gradle-<版本>-bin.zip`
+> Gradle 依下載位址分別快取發行版，因此切換後會重新下載一次。
+
 > [!NOTE]
 > Windows 上若專案路徑包含非 ASCII 字元，請在 `gradle.properties` 中新增
 > `android.overridePathCheck=true`。APK 建置可正常進行，但 `./gradlew test`
