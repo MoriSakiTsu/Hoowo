@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,22 +30,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.dokar.sonner.ToastType
 import me.rerere.hugeicons.HugeIcons
 import me.rerere.hugeicons.stroke.Cancel01
 import me.rerere.hugeicons.stroke.Download01
 import io.github.moriskakitsu.hoowo.BuildConfig
+import io.github.moriskakitsu.hoowo.Hoowo
 import io.github.moriskakitsu.hoowo.R
 import io.github.moriskakitsu.hoowo.ui.components.richtext.MarkdownBlock
-import io.github.moriskakitsu.hoowo.ui.context.LocalToaster
-import io.github.moriskakitsu.hoowo.ui.hooks.useThrottle
 import io.github.moriskakitsu.hoowo.ui.pages.chat.ChatVM
-import io.github.moriskakitsu.hoowo.utils.UpdateDownload
 import io.github.moriskakitsu.hoowo.utils.Version
 import io.github.moriskakitsu.hoowo.utils.onError
 import io.github.moriskakitsu.hoowo.utils.onSuccess
+import io.github.moriskakitsu.hoowo.utils.openUrl
 import io.github.moriskakitsu.hoowo.utils.toLocalDateTime
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -55,8 +53,8 @@ import kotlin.time.toJavaInstant
 fun UpdateCard(vm: ChatVM) {
     val state by vm.updateState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val toaster = LocalToaster.current
     state.onError {
+        // GitHub 直连失败的兜底提示: 如实说明检查失败, 并提供前往 Releases 的手动入口
         Card {
             Column(
                 modifier = Modifier
@@ -70,10 +68,15 @@ fun UpdateCard(vm: ChatVM) {
                     color = MaterialTheme.colorScheme.error
                 )
                 Text(
-                    text = it.message ?: stringResource(R.string.update_card_unknown_error),
+                    text = stringResource(R.string.update_card_check_failed_hint),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                TextButton(
+                    onClick = { context.openUrl("${Hoowo.REPO_URL}/releases") }
+                ) {
+                    Text(stringResource(R.string.update_card_open_releases))
+                }
             }
         }
     }
@@ -122,11 +125,6 @@ fun UpdateCard(vm: ChatVM) {
             }
         }
         if (showDetail) {
-            val downloadHandler = useThrottle<UpdateDownload>(500) { item ->
-                vm.updateChecker.downloadUpdate(context, item)
-                showDetail = false
-                toaster.show(context.getString(R.string.update_card_downloading), type = ToastType.Info)
-            }
             ModalBottomSheet(
                 onDismissRequest = { showDetail = false },
                 sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden, enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)),
@@ -143,11 +141,13 @@ fun UpdateCard(vm: ChatVM) {
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    Text(
-                        text = Instant.parse(info.publishedAt).toJavaInstant().toLocalDateTime(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    if (info.publishedAt.isNotBlank()) {
+                        Text(
+                            text = Instant.parse(info.publishedAt).toJavaInstant().toLocalDateTime(),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     MarkdownBlock(
                         content = info.changelog,
                         modifier = Modifier
@@ -156,31 +156,27 @@ fun UpdateCard(vm: ChatVM) {
                             .verticalScroll(rememberScrollState()),
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    info.downloads.fastForEach { downloadItem ->
-                        OutlinedCard(
-                            onClick = {
-                                downloadHandler(downloadItem)
+                    // 应用内不下载安装包, 统一引导到 Releases 页面自行下载
+                    OutlinedCard(
+                        onClick = {
+                            context.openUrl("${Hoowo.REPO_URL}/releases")
+                            showDetail = false
+                        },
+                    ) {
+                        ListItem(
+                            headlineContent = {
+                                Text(text = stringResource(R.string.update_card_open_releases))
                             },
-                        ) {
-                            ListItem(
-                                headlineContent = {
-                                    Text(
-                                        text = downloadItem.name,
-                                    )
-                                },
-                                supportingContent = {
-                                    Text(
-                                        text = downloadItem.size
-                                    )
-                                },
-                                leadingContent = {
-                                    Icon(
-                                        imageVector = HugeIcons.Download01,
-                                        contentDescription = null
-                                    )
-                                }
-                            )
-                        }
+                            supportingContent = {
+                                Text(text = stringResource(R.string.update_card_open_releases_desc))
+                            },
+                            leadingContent = {
+                                Icon(
+                                    imageVector = HugeIcons.Download01,
+                                    contentDescription = null
+                                )
+                            }
+                        )
                     }
                 }
             }

@@ -1,10 +1,5 @@
 package io.github.moriskakitsu.hoowo.utils
 
-import android.app.DownloadManager
-import android.content.Context
-import android.os.Environment
-import android.widget.Toast
-import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,13 +8,19 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import io.github.moriskakitsu.common.http.await
 import io.github.moriskakitsu.hoowo.AppScope
-import io.github.moriskakitsu.hoowo.BuildConfig
+import io.github.moriskakitsu.hoowo.Hoowo
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.util.concurrent.TimeUnit
+
+// GitHub Releases 直连可能失败(部分网络环境下不可达), 超时设短一些, 失败后如实提示
+private const val CONNECT_TIMEOUT_SECONDS = 8L
+private const val READ_TIMEOUT_SECONDS = 8L
 
 class UpdateChecker(
     private val client: OkHttpClient,
@@ -27,58 +28,61 @@ class UpdateChecker(
 ) {
     private val json = Json { ignoreUnknownKeys = true }
 
+    // 更新检查只需要读取 release 信息, 单独用一个短超时的客户端, 避免长时间转圈
+    private val updateClient: OkHttpClient by lazy {
+        client.newBuilder()
+            .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
+    }
+
     val updateState: StateFlow<UiState<UpdateInfo>> = checkUpdate().stateIn(
         scope = appScope,
         started = SharingStarted.Lazily,
         initialValue = UiState.Loading,
     )
 
+    /**
+     * 从 GitHub Releases 读取最新版本。
+     *
+     * 只做"有新版本"的提示, 不在应用内下载安装包; 需要更新时引导用户前往 Releases 页面。
+     * 网络不可达时抛出异常, 由 UI 显示"检查更新失败", 不做静默降级。
+     */
     private fun checkUpdate(): Flow<UiState<UpdateInfo>> = flow {
-        // 更新检查已禁用：直接返回当前版本号，UI 将判定为"已是最新版本"，且不会发起任何网络请求。
-        // 接入自己的更新服务时，把这里改回对更新 API 的请求即可。
+        emit(UiState.Loading)
+        val request = Request.Builder()
+            .url("https://api.github.com/repos/${Hoowo.REPO_OWNER}/${Hoowo.REPO_NAME}/releases/latest")
+            .header("Accept", "application/vnd.github+json")
+            .build()
+        val response = updateClient.newCall(request).await()
+        if (!response.isSuccessful) {
+            throw IllegalStateException("GitHub Releases responded with HTTP ${response.code}")
+        }
+        val body = response.body?.string()
+            ?: throw IllegalStateException("Empty response from GitHub Releases")
+        val release = json.decodeFromString<GitHubRelease>(body)
         emit(
             UiState.Success(
                 data = UpdateInfo(
-                    version = BuildConfig.VERSION_NAME,
-                    publishedAt = "",
-                    changelog = "",
-                    downloads = emptyList(),
+                    // GitHub 的 tag 通常带 v 前缀, 版本比较只认数字部分
+                    version = release.tagName.removePrefix("v").removePrefix("V"),
+                    publishedAt = release.publishedAt.orEmpty(),
+                    changelog = release.body.orEmpty(),
                 )
             )
         )
-    }
-
-    fun downloadUpdate(context: Context, download: UpdateDownload) {
-        runCatching {
-            val request = DownloadManager.Request(download.url.toUri()).apply {
-                // 设置下载时通知栏的标题和描述
-                setTitle(download.name)
-                setDescription("正在下载更新包...")
-                // 下载完成后通知栏可见
-                setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                // 允许在移动网络和WiFi下下载
-                setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                // 设置文件保存路径
-                setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, download.name)
-                // 允许下载的文件类型
-                setMimeType("application/vnd.android.package-archive")
-            }
-            // 获取系统的DownloadManager
-            val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            dm.enqueue(request)
-            // 你可以保存返回的downloadId到本地，以便后续查询下载进度或状态
-        }.onFailure {
-            Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show()
-            context.openUrl(download.url) // 跳转到下载页面
+    }.flowOn(Dispatchers.IO)
+        .catch { throwable ->
+            emit(UiState.Error(throwable))
         }
-    }
 }
 
+/** GitHub Releases API 中我们关心的字段, 其余字段忽略 */
 @Serializable
-data class UpdateDownload(
-    val name: String,
-    val url: String,
-    val size: String
+private data class GitHubRelease(
+    @SerialName("tag_name") val tagName: String,
+    @SerialName("published_at") val publishedAt: String? = null,
+    @SerialName("body") val body: String? = null,
 )
 
 @Serializable
@@ -86,7 +90,6 @@ data class UpdateInfo(
     val version: String,
     val publishedAt: String,
     val changelog: String,
-    val downloads: List<UpdateDownload>
 )
 
 /**

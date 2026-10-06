@@ -14,6 +14,15 @@ Built with Jetpack Compose, Kotlin, and follows Material Design 3 principles.
 ./gradlew lint                   # 运行 Android Lint
 ```
 
+- **Gradle 发行版走腾讯云镜像**：`gradle/wrapper/gradle-wrapper.properties` 的
+  `distributionUrl` 指向 `mirrors.cloud.tencent.com/gradle`，因为官方
+  `services.gradle.org` 在中国大陆不可达，而 Gradle 本体约 134 MB。该文件与官方一致。
+  海外环境或镜像不可用时改回官方地址即可；Gradle 按 URL 分别缓存，切换后会重新下载一次。
+- **不要删除 `~/.gradle/wrapper/dists`**（除非你准备重新下载）。缓存目录若缺少 `.ok`
+  标记，wrapper 会判定发行版不完整并在每次构建时尝试重新下载。
+- 若在 Windows 上路径含非 ASCII 字符，`./gradlew test` 会因测试进程无法解析 classpath
+  而报 `ClassNotFoundException`；请使用纯 ASCII 路径。
+
 ## Module Structure
 
 - **app**: Main application module with UI, ViewModels, and core logic

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
@@ -24,7 +25,9 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -36,20 +39,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.dokar.sonner.ToastType
 import kotlinx.coroutines.launch
 import me.rerere.hugeicons.HugeIcons
+import me.rerere.hugeicons.stroke.Add01
 import me.rerere.hugeicons.stroke.Edit03
 import me.rerere.hugeicons.stroke.LookTop
 import io.github.moriskakitsu.hoowo.R
 import io.github.moriskakitsu.hoowo.Screen
 import io.github.moriskakitsu.hoowo.data.datastore.Settings
 import io.github.moriskakitsu.hoowo.data.model.Assistant
+import io.github.moriskakitsu.hoowo.data.model.PresetAssistant
 import io.github.moriskakitsu.hoowo.ui.components.ui.UIAvatar
 import io.github.moriskakitsu.hoowo.ui.context.LocalNavController
+import io.github.moriskakitsu.hoowo.ui.context.LocalToaster
 import io.github.moriskakitsu.hoowo.ui.hooks.rememberAssistantState
+import io.github.moriskakitsu.hoowo.ui.pages.assistant.PresetAssistantPickerSheet
+import io.github.moriskakitsu.hoowo.ui.pages.assistant.displayName
 import kotlin.uuid.Uuid
 
 @Composable
@@ -62,6 +72,8 @@ fun AssistantPicker(
     val state = rememberAssistantState(settings, onUpdateSettings)
     val defaultAssistantName = stringResource(R.string.assistant_page_default_assistant)
     var showPicker by remember { mutableStateOf(false) }
+    var showPresetPicker by remember { mutableStateOf(false) }
+    val toaster = LocalToaster.current
 
     NavigationDrawerItem(
         icon = {
@@ -103,8 +115,79 @@ fun AssistantPicker(
             },
             onDismiss = {
                 showPicker = false
-            }
+            },
+            onOpenPresetPicker = {
+                showPresetPicker = true
+            },
         )
+    }
+
+    if (showPresetPicker) {
+        val context = LocalContext.current
+        // 记录待创建的预设, 非空时弹出改名对话框
+        var pendingPreset by remember { mutableStateOf<PresetAssistant?>(null) }
+        var draftName by remember { mutableStateOf("") }
+
+        if (pendingPreset == null) {
+            PresetAssistantPickerSheet(
+                onPick = { preset, name ->
+                    pendingPreset = preset
+                    draftName = name
+                },
+                onDismiss = { showPresetPicker = false },
+            )
+        }
+
+        pendingPreset?.let { preset ->
+            // 提到 composable 作用域外, 不能在 onClick 里调用 @Composable
+            val presetDefaultName = preset.displayName()
+            AlertDialog(
+                onDismissRequest = {
+                    // 取消改名则退回预设列表, 而不是整个关掉
+                    pendingPreset = null
+                },
+                title = { Text(stringResource(R.string.assistant_preset_picker_title)) },
+                text = {
+                    OutlinedTextField(
+                        value = draftName,
+                        onValueChange = { draftName = it },
+                        label = { Text(stringResource(R.string.assistant_page_name)) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val finalName = draftName.ifBlank { presetDefaultName }
+                            val assistant = preset.toAssistant(finalName)
+                            // 必须「新增助手」与「切换当前助手」在同一次写入里完成:
+                            // AssistantState 持有的是构造时的 settings 快照, 先写一次再调
+                            // state.setSelectAssistant() 会用旧快照覆盖, 新助手会丢失。
+                            onUpdateSettings(
+                                settings.copy(
+                                    assistants = settings.assistants + assistant,
+                                    assistantId = assistant.id,
+                                )
+                            )
+                            toaster.show(
+                                context.getString(R.string.assistant_preset_picker_created, finalName),
+                                type = ToastType.Success,
+                            )
+                            pendingPreset = null
+                            showPresetPicker = false
+                        }
+                    ) {
+                        Text(stringResource(R.string.assistant_preset_created))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { pendingPreset = null }) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+            )
+        }
     }
 }
 
@@ -113,7 +196,8 @@ private fun AssistantPickerSheet(
     settings: Settings,
     currentAssistant: Assistant,
     onAssistantSelected: (Assistant) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onOpenPresetPicker: () -> Unit,
 ) {
     val sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden, enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded))
     val scope = rememberCoroutineScope()
@@ -144,11 +228,34 @@ private fun AssistantPickerSheet(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                text = stringResource(R.string.assistant_page_title),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(R.string.assistant_page_title),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                // 面向普通用户的主要创建入口: 从学科预设里挑一个, 不必自己写提示词
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                            onDismiss()
+                            onOpenPresetPicker()
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = HugeIcons.Add01,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Spacer(Modifier.size(4.dp))
+                    Text(stringResource(R.string.assistant_preset_picker_title))
+                }
+            }
 
             // 标签过滤器
             if (settings.assistantTags.isNotEmpty()) {
