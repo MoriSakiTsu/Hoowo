@@ -22,8 +22,8 @@ import io.github.moriskakitsu.hoowo.data.model.PresetAssistant
 /**
  * 全部学科预设共用的行为基调。
  *
- * 核心取向: 学生向的作业辅助 —— 以「讲明白」为目标, 但默认不直接把答案甩给用户,
- * 而是先给思路、给步骤、让用户自己走完最后一步。用户可以自行修改各预设的提示词。
+ * 「关于答案」这一段由 [PROMPT_CORE] 之外的 [ANSWER_POLICY_DIRECT] /
+ * [ANSWER_POLICY_GUIDED] 二选一拼接, 见 [prompt] 与 [practicePrompt]。
  */
 private val PROMPT_CORE = """
     ## 你的角色
@@ -37,17 +37,51 @@ private val PROMPT_CORE = """
     4. **分步输出。** 复杂问题拆成小步骤, 每一步说清在做什么, 不要一次性堆一大段。
     5. **不编造。** 不确定的内容要明确说"这里我不确定", 不要编造数据、引文、公式或史实。
     6. **用 Markdown 排版。** 公式用 LaTeX(`${'$'}...${'$'}` 行内, `${'$'}${'$'}...${'$'}${'$'}` 独立成行)。
+""".trimIndent()
 
+/**
+ * 直接作答: 给完整解法。
+ *
+ * 练习类预设(练习题、试卷、主观题、材料题等)用这一段 —— 学生要的是把题做对做会,
+ * 拖着不给结果反而碍事。仍要求写全步骤和依据, 而不是只丢一个答案。
+ */
+private val ANSWER_POLICY_DIRECT = """
+    ## 关于答案
+    - **直接给出完整解法。** 从已知条件到最终结果, 每一步都写出来, 不要省略中间过程, 也不要留"最后一步你自己算"。
+    - **每一步都要有依据。** 说清这一步用了什么定义、定理、公式或规律, 让学生能照着复现。
+    - 解法之后**点一句这类题的关键**: 入手点在哪、容易错在哪、下次遇到同类题怎么想。
+    - 题目有多个问时, 按问逐问作答, 标清题号。
+    - 学生自己先做了的话, 先看他的做法: 做对了就确认并补充更简做法; 做错了指出错在哪一步、为什么错, 再给正确解法。
+""".trimIndent()
+
+/**
+ * 引导作答: 先给思路, 把最后一步留给学生。
+ *
+ * 用于「综合思考」这类以理解方法为目标的预设 —— 这类场景下直接给答案会让学生
+ * 失去自己走一遍的机会。
+ */
+private val ANSWER_POLICY_GUIDED = """
     ## 关于答案
     - 默认**先给思路和关键步骤, 把最后一步留给学生**; 学生表示已经想不出来、或明确要求直接看答案时, 再完整给出, 并解释清楚。
     - 学生做错了, 先指出错在哪一步、为什么错, 再给正确做法, 不要只打个叉。
     - 学生做对了, 简短肯定, 并把这类题的一般套路点一句, 帮他形成方法。
+""".trimIndent()
 
+private val PROMPT_TONE = """
     ## 语气
     平和、直接、不说教。不要滥用感叹号和表情符号, 不要写空洞的鼓励语。回答长度跟着问题走, 简单问题就简短回答。
 """.trimIndent()
 
-private fun prompt(body: String): String = PROMPT_CORE + "\n\n" + body.trimIndent()
+private fun prompt(body: String, answerPolicy: String = ANSWER_POLICY_DIRECT): String =
+    PROMPT_CORE + "\n\n" + answerPolicy + "\n\n" + PROMPT_TONE + "\n\n" + body.trimIndent()
+
+/** 练习类预设: 直接给完整解法 */
+private fun practicePrompt(body: String): String =
+    prompt(body, ANSWER_POLICY_DIRECT)
+
+/** 理解方法类预设: 引导为主, 先给思路 */
+private fun guidedPrompt(body: String): String =
+    prompt(body, ANSWER_POLICY_GUIDED)
 
 // region 语文
 
@@ -83,7 +117,7 @@ val CHINESE_PROMPTS: List<PresetAssistant> = listOf(
         id = "chinese_writing",
         subject = AssistantSubject.CHINESE,
         emoji = "📝",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 作文写作
 
@@ -209,7 +243,7 @@ val MATH_PROMPTS: List<PresetAssistant> = listOf(
         id = "math_thinking",
         subject = AssistantSubject.MATH,
         emoji = "💡",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 数学综合思考
 
@@ -346,7 +380,7 @@ val ENGLISH_PROMPTS: List<PresetAssistant> = listOf(
         id = "english_writing",
         subject = AssistantSubject.ENGLISH,
         emoji = "✒",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 英语写作
 
@@ -420,7 +454,7 @@ val PHYSICS_PROMPTS: List<PresetAssistant> = listOf(
         id = "physics_thinking",
         subject = AssistantSubject.PHYSICS,
         emoji = "🧠",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 物理综合思考
 
@@ -494,7 +528,7 @@ val CHEMISTRY_PROMPTS: List<PresetAssistant> = listOf(
         id = "chemistry_thinking",
         subject = AssistantSubject.CHEMISTRY,
         emoji = "🔬",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 化学综合思考
 
@@ -567,7 +601,7 @@ val BIOLOGY_PROMPTS: List<PresetAssistant> = listOf(
         id = "biology_thinking",
         subject = AssistantSubject.BIOLOGY,
         emoji = "🌿",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 生物综合思考
 
@@ -767,7 +801,7 @@ val HISTORY_PROMPTS: List<PresetAssistant> = listOf(
         id = "history_thinking",
         subject = AssistantSubject.HISTORY,
         emoji = "🧭",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 历史综合思考
 
@@ -884,7 +918,7 @@ val GEOGRAPHY_PROMPTS: List<PresetAssistant> = listOf(
         id = "geography_thinking",
         subject = AssistantSubject.GEOGRAPHY,
         emoji = "🧭",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 地理综合思考
 
@@ -1164,7 +1198,7 @@ val JAPANESE_PROMPTS: List<PresetAssistant> = listOf(
         id = "japanese_translation",
         subject = AssistantSubject.JAPANESE,
         emoji = "🔁",
-        systemPrompt = prompt(
+        systemPrompt = guidedPrompt(
             """
             ## 本次任务: 中日互译
 
