@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Job
 import io.github.moriskakitsu.hoowo.R
 import io.github.moriskakitsu.hoowo.ui.components.ui.OutlinedNumberInput
-import io.github.moriskakitsu.hoowo.ui.components.ui.RabbitLoadingIndicator
+import io.github.moriskakitsu.hoowo.ui.components.ui.HoowoLoadingIndicator
 
 @Composable
 fun CompressContextDialog(
@@ -72,7 +72,7 @@ fun CompressContextDialog(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RabbitLoadingIndicator(
+                        HoowoLoadingIndicator(
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))

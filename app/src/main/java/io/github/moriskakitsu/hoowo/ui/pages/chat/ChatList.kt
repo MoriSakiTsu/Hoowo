@@ -97,7 +97,7 @@ import io.github.moriskakitsu.hoowo.service.ChatError
 import io.github.moriskakitsu.hoowo.ui.components.message.ChatMessage
 import io.github.moriskakitsu.hoowo.ui.components.ui.ErrorCardsDisplay
 import io.github.moriskakitsu.hoowo.ui.components.ui.ListSelectableItem
-import io.github.moriskakitsu.hoowo.ui.components.ui.RabbitLoadingIndicator
+import io.github.moriskakitsu.hoowo.ui.components.ui.HoowoLoadingIndicator
 import io.github.moriskakitsu.hoowo.ui.components.ui.Tooltip
 import io.github.moriskakitsu.hoowo.ui.hooks.ImeLazyListAutoScroller
 import io.github.moriskakitsu.hoowo.ui.theme.ChatFontProvider
@@ -385,7 +385,7 @@ private fun ChatListNormal(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        RabbitLoadingIndicator(
+                        HoowoLoadingIndicator(
                             modifier = Modifier.size(28.dp)
                         )
                         AnimatedVisibility(
