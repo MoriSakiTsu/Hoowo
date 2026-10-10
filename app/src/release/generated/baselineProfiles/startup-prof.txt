@@ -49895,7 +49895,6 @@ Lio/github/moriskakitsu/hoowo/Screen$Prompts;
 Lio/github/moriskakitsu/hoowo/Screen$QuickMessages;
 Lio/github/moriskakitsu/hoowo/Screen$Setting;
 Lio/github/moriskakitsu/hoowo/Screen$SettingAbout;
-Lio/github/moriskakitsu/hoowo/Screen$SettingDonate;
 Lio/github/moriskakitsu/hoowo/Screen$SettingFiles;
 Lio/github/moriskakitsu/hoowo/Screen$SettingMcp;
 Lio/github/moriskakitsu/hoowo/Screen$SettingModels;
@@ -50342,7 +50341,6 @@ SPLio/github/moriskakitsu/hoowo/data/ai/transformers/WorkspaceReminderTransforme
 Lio/github/moriskakitsu/hoowo/data/ai/transformers/WorkspaceReminderTransformer$transform$1;
 SPLio/github/moriskakitsu/hoowo/data/ai/transformers/WorkspaceReminderTransformer$transform$1;-><init>(Lio/github/moriskakitsu/hoowo/data/ai/transformers/WorkspaceReminderTransformer;Lkotlin/coroutines/Continuation;)V
 Lio/github/moriskakitsu/hoowo/data/api/HoowoAPI;
-Lio/github/moriskakitsu/hoowo/data/api/SponsorAPI;
 Lio/github/moriskakitsu/hoowo/data/datastore/BackupReminderConfig;
 SPLio/github/moriskakitsu/hoowo/data/datastore/BackupReminderConfig;-><clinit>()V
 SPLio/github/moriskakitsu/hoowo/data/datastore/BackupReminderConfig;-><init>(IZIJLkotlinx/serialization/internal/SerializationConstructorMarker;)V
@@ -50528,7 +50526,6 @@ SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSearchServiceSelect
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSearchServices()Ljava/util/List;
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSelectedASRProviderId()Lkotlin/uuid/Uuid;
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSelectedTTSProviderId()Lkotlin/uuid/Uuid;
-SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSponsorAlertDismissedAt()I
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSuggestionModelId()Lkotlin/uuid/Uuid;
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getSuggestionPrompt()Ljava/lang/String;
 SPLio/github/moriskakitsu/hoowo/data/datastore/Settings;->getThemeId()Ljava/lang/String;
@@ -50605,7 +50602,6 @@ SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSELECTE
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSELECTED_TTS_PROVIDER$cp()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSELECT_ASSISTANT$cp()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSELECT_MODEL$cp()Landroidx/datastore/preferences/core/Preferences$Key;
-SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSPONSOR_ALERT_DISMISSED_AT$cp()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSUGGESTION_MODEL$cp()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getSUGGESTION_PROMPT$cp()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore;->access$getTHEME_ID$cp()Landroidx/datastore/preferences/core/Preferences$Key;
@@ -50659,7 +50655,6 @@ SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSELE
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSELECTED_TTS_PROVIDER()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSELECT_ASSISTANT()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSELECT_MODEL()Landroidx/datastore/preferences/core/Preferences$Key;
-SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSPONSOR_ALERT_DISMISSED_AT()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSUGGESTION_MODEL()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getSUGGESTION_PROMPT()Landroidx/datastore/preferences/core/Preferences$Key;
 SPLio/github/moriskakitsu/hoowo/data/datastore/SettingsStore$Companion;->getTHEME_ID()Landroidx/datastore/preferences/core/Preferences$Key;
@@ -52648,18 +52643,6 @@ SPLio/github/moriskakitsu/hoowo/ui/components/ui/KeepScreenOnKt$KeepScreenOn$lam
 SPLio/github/moriskakitsu/hoowo/ui/components/ui/KeepScreenOnKt$KeepScreenOn$lambda$0$0$$inlined$onDispose$1;->dispose()V
 Lio/github/moriskakitsu/hoowo/ui/components/ui/ListSelectableItemKt;
 SPLio/github/moriskakitsu/hoowo/ui/components/ui/ListSelectableItemKt;->ListSelectableItem(Ljava/lang/Object;Ljava/util/List;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
-Lio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;->$r8$lambda$-ajk7sXWzxolc-1TDrx_VUfgS3w(ILandroid/widget/ImageView;)Lkotlin/Unit;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;->$r8$lambda$tojLuCdDD7fCWu_CivnPOU3hO1Q(ILandroid/content/Context;)Landroid/widget/ImageView;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;->RabbitLoadingIndicator$lambda$0$0(ILandroid/content/Context;)Landroid/widget/ImageView;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;->RabbitLoadingIndicator$lambda$1$0(ILandroid/widget/ImageView;)Lkotlin/Unit;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt;->RabbitLoadingIndicator(Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
-Lio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda0;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda0;-><init>(I)V
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda0;->invoke(Ljava/lang/Object;)Ljava/lang/Object;
-Lio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda1;
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda1;-><init>(I)V
-SPLio/github/moriskakitsu/hoowo/ui/components/ui/RabbitLoadingKt$$ExternalSyntheticLambda1;->invoke(Ljava/lang/Object;)Ljava/lang/Object;
 Lio/github/moriskakitsu/hoowo/ui/components/ui/TTSControllerKt;
 SPLio/github/moriskakitsu/hoowo/ui/components/ui/TTSControllerKt;->TTSController$lambda$0(Landroidx/compose/runtime/State;)Z
 SPLio/github/moriskakitsu/hoowo/ui/components/ui/TTSControllerKt;->TTSController$lambda$2(Landroidx/compose/runtime/MutableState;)Z

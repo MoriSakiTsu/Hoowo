@@ -5,7 +5,7 @@
 
 基於 [RikkaHub](https://github.com/rikkahub/rikkahub) 二次開發。
 
-[简体中文](README_ZH_CN.md) | [繁體中文](README_ZH_TW.md) | [English](README.md)
+[简体中文](README.md) | [繁體中文](README_ZH_TW.md) | [English](README_EN.md)
 </div>
 
 ## ✨ 功能

@@ -1,10 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="about_page_contact">联系开发者</string>
+  <string name="about_page_maintainer">联系维护者</string>
   <string name="about_page_contact_email">邮箱</string>
   <string name="about_page_contact_email_copied">邮箱已复制到剪贴板</string>
   <string name="about_page_contact_no_email_app">未找到邮件应用，邮箱已复制到剪贴板</string>
   <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">Hoowo 最初是开源项目 RikkaHub 的一个插件，后演变为独立项目。</string>
+  <string name="about_page_desc_p2">我们弱化了对于高级功能的专注，更多注重于基础和便捷化的开发。</string>
+  <string name="about_page_desc_p3">现在，Hoowo 的主要开发路线是学生的作业助手，这是一个用户群体庞大的方向，但市面上少有好用的此类特化项目，维护者们正在这个领域不断地开拓和优化。</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">欢迎你的加入，通过 </string>
+  <string name="about_page_desc_p4_suffix">（地址就写在下面这里）加入我们的开发！</string>
+  <string name="about_page_desc_title">关于 Hoowo</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">License</string>
   <string name="about_page_system">系统</string>

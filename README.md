@@ -1,79 +1,75 @@
 <div align="center">
   <h1>Hoowo</h1>
 
-A native Android LLM chat client focused on homework & study assistance for students 🤖💬
+一个面向学生的原生 Android LLM 聊天客户端，专注于作业与学习辅助 🤖💬
 
-Based on [RikkaHub](https://github.com/rikkahub/rikkahub).
+基于 [RikkaHub](https://github.com/rikkahub/rikkahub) 二次开发。
 
-[简体中文](README_ZH_CN.md) | [繁體中文](README_ZH_TW.md) | English
+[简体中文](README.md) | [繁體中文](README_ZH_TW.md) | [English](README_EN.md)
 </div>
 
-## ✨ Features
+## ✨ 功能
 
-- 🎨 Material You Design and 🌙 Dark mode
-- 🔄 Multiple AI Provider Support: custom API / URL / models (all OpenAI, Google, Anthropic compatible api)
-- 🖼️ Multimodal input support (Image, Text Documentation, PDF, Docx)
-- 🖥️ Web access for multi-platform use
-- 🛠️ MCP support
-- 📝 Markdown Rendering (with code highlighting, Latex formulas, tables, Mermaid)
-- 🪾 Message Branching
-- 🔍 Search capabilities (Exa, Tavily, Zhipu, LinkUp, Brave, Perplexity, etc.)
-- 🧩 Prompt variables (model name, time, etc.)
-- 🤖 Agent customization
-- 🧠 ChatGPT-like memory feature
-- 📝 AI Translation
-- 🌐 Custom HTTP request headers and request bodies
-- 💌 Silly Tavern character card import
+- 🎨 Material You 设计与 🌙 深色模式
+- 🔄 多 AI 提供商支持：自定义 API / 地址 / 模型（兼容所有 OpenAI、Google、Anthropic 格式接口）
+- 🖼️ 多模态输入（图片、文本文档、PDF、Docx）
+- 🖥️ Web 端访问，多平台使用
+- 🛠️ MCP 支持
+- 📝 Markdown 渲染（代码高亮、LaTeX 公式、表格、Mermaid）
+- 🪾 消息分支
+- 🔍 联网搜索（Exa、Tavily、智谱、LinkUp、Brave、Perplexity 等）
+- 🧩 提示词变量（模型名、时间等）
+- 🤖 助手自定义
+- 🧠 类 ChatGPT 记忆功能
+- 📝 AI 翻译
+- 🌐 自定义请求头与请求体
+- 💌 Silly Tavern 角色卡导入
 
-## 💻 Development
+## 💻 开发
 
-This project is developed using [Android Studio](https://developer.android.com/studio).
+本项目使用 [Android Studio](https://developer.android.com/studio) 开发。
 
-Technology stack:
+技术栈：
 
-- [Kotlin](https://kotlinlang.org/) (Development language)
-- [Koin](https://insert-koin.io/) (Dependency Injection)
-- [Jetpack Compose](https://developer.android.com/jetpack/compose) (UI framework)
-- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (Preference data
-  storage)
-- [Room](https://developer.android.com/training/data-storage/room) (Database)
-- [Coil](https://coil-kt.github.io/coil/) (Image loading)
-- [Material You](https://m3.material.io/) (UI design)
-- [Navigation 3](https://developer.android.com/guide/navigation/navigation-3) (Navigation)
-- [Okhttp](https://square.github.io/okhttp/) (HTTP client)
-- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) (JSON serialization)
+- [Kotlin](https://kotlinlang.org/)（开发语言）
+- [Koin](https://insert-koin.io/)（依赖注入）
+- [Jetpack Compose](https://developer.android.com/jetpack/compose)（UI 框架）
+- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)（偏好存储）
+- [Room](https://developer.android.com/training/data-storage/room)（数据库）
+- [Coil](https://coil-kt.github.io/coil/)（图片加载）
+- [Material You](https://m3.material.io/)（UI 设计）
+- [Navigation 3](https://developer.android.com/guide/navigation/navigation-3)（导航）
+- [Okhttp](https://square.github.io/okhttp/)（网络请求）
+- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)（JSON 序列化）
 
-Build commands:
+构建命令：
 
 ```bash
-./gradlew assembleDebug          # Build debug APK
-./gradlew test                   # Run JVM unit tests
-./gradlew lint                   # Run Android Lint
+./gradlew assembleDebug          # 构建 Debug APK
+./gradlew test                   # 运行 JVM 单元测试
+./gradlew lint                   # 运行 Android Lint
 ```
 
 > [!IMPORTANT]
-> The Gradle distribution URL in `gradle/wrapper/gradle-wrapper.properties` points to the
-> Tencent Cloud mirror (`mirrors.cloud.tencent.com/gradle`) instead of the official
-> `services.gradle.org`, because the official host is unreachable from mainland China and
-> Gradle itself is a ~134 MB download. The file served by the mirror is identical to the
-> official one. If you are outside mainland China, or the mirror is unavailable, change that
-> line back to:
-> `https\://services.gradle.org/distributions/gradle-<version>-bin.zip`
-> Gradle caches distributions per-URL, so switching re-downloads it once.
+> `gradle/wrapper/gradle-wrapper.properties` 中的 Gradle 下载地址指向腾讯云镜像
+> （`mirrors.cloud.tencent.com/gradle`），而非官方的 `services.gradle.org` —— 因为
+> Gradle 本体有约 134 MB，而官方地址在中国大陆无法访问。镜像提供的文件与官方完全一致。
+> 如果你在海外、或镜像不可用，把那一行改回：
+> `https\://services.gradle.org/distributions/gradle-<版本>-bin.zip`
+> Gradle 按下载地址分别缓存发行版，所以切换后会重新下载一次。
 
 > [!NOTE]
-> If your project path contains non-ASCII characters on Windows, add
-> `android.overridePathCheck=true` to `gradle.properties`. Building the APK still
-> works, but `./gradlew test` is broken there: the test worker cannot resolve the
-> classpath entries and fails with `ClassNotFoundException`. Move the project to an
-> ASCII-only path (for example `E:\Projects\Hoowo`) to run the unit tests.
+> Windows 上若项目路径包含非 ASCII 字符，请在 `gradle.properties` 中添加
+> `android.overridePathCheck=true`。APK 构建可以正常进行，但 `./gradlew test`
+> 在该路径下会失效：测试进程无法解析 classpath 条目并报
+> `ClassNotFoundException`。请将项目移动到纯 ASCII 路径
+> （例如 `E:\Projects\Hoowo`）再运行单元测试。
 
-## 🙏 Acknowledgements
+## 🙏 致谢
 
-Hoowo is a fork of the amazing open-source project
-[RikkaHub](https://github.com/rikkahub/rikkahub) by [re-ovo](https://github.com/re-ovo). Thanks for
-the great foundation.
+Hoowo 基于 [re-ovo](https://github.com/re-ovo) 的优秀开源项目
+[RikkaHub](https://github.com/rikkahub/rikkahub) 二次开发而来，感谢其打下的坚实基础。
 
-## 📄 License
+## 📄 许可证
 
-This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+本项目基于 [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0) 许可证开源。
