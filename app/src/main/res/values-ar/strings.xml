@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact_email">البريد الإلكتروني</string>
+  <string name="about_page_contact_email_copied">تم نسخ البريد الإلكتروني إلى الحافظة</string>
+  <string name="about_page_contact_no_email_app">لم يتم العثور على تطبيق بريد، وتم نسخ العنوان إلى الحافظة</string>
+  <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">بدأ Hoowo كإضافة لمشروع المصدر المفتوح RikkaHub، ثم تطور ليصبح مشروعًا مستقلًا.</string>
+  <string name="about_page_desc_p2">لقد خففنا التركيز على الميزات المتقدمة، وركزنا أكثر على الأساسيات وعلى جعل الاستخدام أكثر سهولة.</string>
+  <string name="about_page_desc_p3">يتجه Hoowo اليوم بشكل أساسي إلى أن يكون مساعدًا في الواجبات الدراسية للطلاب؛ وهو مجال يضم قاعدة مستخدمين ضخمة، لكن توجد فيه مشاريع متخصصة جيدة قليلة، لذلك يواصل المشرفون التطوير والتحسين في هذا المجال.</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">نرحب بانضمامك إلينا في تطويره. عبر </string>
+  <string name="about_page_desc_p4_suffix"> (العنوان مذكور بالأسفل) يمكنك الانضمام إلى تطويرنا!</string>
+  <string name="about_page_desc_title">حول Hoowo</string>
+  <string name="about_page_maintainer">تواصل مع المشرفين</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">الترخيص</string>
   <string name="about_page_system">النظام</string>

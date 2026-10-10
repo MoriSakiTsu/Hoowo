@@ -3,14 +3,9 @@ package io.github.moriskakitsu.hoowo.ui.pages.setting
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.widget.Toast
-import me.rerere.hugeicons.HugeIcons
-import me.rerere.hugeicons.stroke.Code
-import me.rerere.hugeicons.stroke.CustomerService
-import me.rerere.hugeicons.stroke.Earth
-import me.rerere.hugeicons.stroke.File02
-import me.rerere.hugeicons.stroke.Github
-import me.rerere.hugeicons.stroke.Mail01
-import me.rerere.hugeicons.stroke.SmartPhone01
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFlexibleTopAppBar
@@ -33,16 +29,24 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil3.compose.AsyncImage
@@ -59,6 +63,18 @@ import io.github.moriskakitsu.hoowo.utils.SoundEffectPlayer
 import io.github.moriskakitsu.hoowo.utils.openUrl
 import io.github.moriskakitsu.hoowo.utils.plus
 import io.github.moriskakitsu.hoowo.utils.writeClipboardText
+import me.rerere.hugeicons.HugeIcons
+import me.rerere.hugeicons.stroke.Code
+import me.rerere.hugeicons.stroke.CustomerService
+import me.rerere.hugeicons.stroke.File02
+import me.rerere.hugeicons.stroke.Github
+import me.rerere.hugeicons.stroke.Mail01
+import me.rerere.hugeicons.stroke.SmartPhone01
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+// LazyColumn 中「GitHub」所在卡片的索引, 用于点击简介里的链接后滚动定位
+private const val GITHUB_SECTION_INDEX = 2
 
 @Composable
 fun SettingAboutPage() {
@@ -85,6 +101,13 @@ fun SettingAboutPage() {
         )
     }
     var logoCenterPx by remember { mutableStateOf(Offset.Zero) }
+
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    // 简介里的 GitHub 链接不跳转网页, 而是滚动到下方 GitHub 项并高亮两下
+    val highlightColor = MaterialTheme.colorScheme.primaryContainer
+    var githubHighlighted by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             LargeFlexibleTopAppBar(
@@ -108,6 +131,7 @@ fun SettingAboutPage() {
         ) { onBurst ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
+                state = listState,
                 contentPadding = innerPadding + PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
@@ -147,6 +171,23 @@ fun SettingAboutPage() {
                 }
 
                 item {
+                    AboutDescriptionCard(
+                        onGithubLinkClick = {
+                            scope.launch {
+                                listState.animateScrollToItem(GITHUB_SECTION_INDEX)
+                                // 高亮两下
+                                repeat(2) {
+                                    githubHighlighted = true
+                                    delay(450)
+                                    githubHighlighted = false
+                                    delay(220)
+                                }
+                            }
+                        },
+                    )
+                }
+
+                item {
                     CardGroup(
                         modifier = Modifier.padding(horizontal = 8.dp),
                     ) {
@@ -172,11 +213,17 @@ fun SettingAboutPage() {
                 }
 
                 item {
+                    val highlight by animateColorAsState(
+                        targetValue = if (githubHighlighted) highlightColor else Color.Transparent,
+                        animationSpec = tween(durationMillis = 260),
+                        label = "github_highlight",
+                    )
                     CardGroup(
                         modifier = Modifier.padding(horizontal = 8.dp),
                     ) {
                         item(
                             onClick = { context.openUrl(Hoowo.REPO_URL) },
+                            modifier = Modifier.background(highlight),
                             leadingContent = { Icon(HugeIcons.Github, null) },
                             supportingContent = { Text(Hoowo.REPO_URL) },
                             headlineContent = { Text(stringResource(R.string.about_page_github)) },
@@ -194,7 +241,7 @@ fun SettingAboutPage() {
                     val emailToast = stringResource(R.string.about_page_contact_email_copied)
                     CardGroup(
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        title = { Text(stringResource(R.string.about_page_contact)) },
+                        title = { Text(stringResource(R.string.about_page_maintainer)) },
                     ) {
                         item(
                             onClick = { context.writeClipboardText(Hoowo.DEVELOPER_QQ) },
@@ -222,5 +269,70 @@ fun SettingAboutPage() {
                 }
             }
         }
+    }
+}
+
+/**
+ * 关于页顶部的软件简介。
+ *
+ * 最后一句里的「GitHub」是可点击的超链接样式, 但点击后不跳转网页 ——
+ * 而是滚动到下方 GitHub 项并高亮两下, 相当于"地址就写在下面那里"。
+ */
+@Composable
+private fun AboutDescriptionCard(onGithubLinkClick: () -> Unit) {
+    val linkColor = MaterialTheme.colorScheme.primary
+    val paragraphs = listOf(
+        stringResource(R.string.about_page_desc_p1),
+        stringResource(R.string.about_page_desc_p2),
+        stringResource(R.string.about_page_desc_p3),
+    )
+    // 最后一段拆成「链接前文字 + GitHub + 链接后文字」, 便于把 GitHub 做成行内超链接
+    val p4Prefix = stringResource(R.string.about_page_desc_p4_prefix)
+    val p4Link = stringResource(R.string.about_page_desc_p4_link)
+    val p4Suffix = stringResource(R.string.about_page_desc_p4_suffix)
+
+    val lastParagraph = remember(p4Prefix, p4Link, p4Suffix, linkColor) {
+        buildAnnotatedString {
+            append(p4Prefix)
+            withLink(
+                LinkAnnotation.Clickable(
+                    tag = "github_section",
+                    styles = TextLinkStyles(
+                        style = SpanStyle(
+                            color = linkColor,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    ),
+                    linkInteractionListener = { onGithubLinkClick() },
+                )
+            ) {
+                append(p4Link)
+            }
+            append(p4Suffix)
+        }
+    }
+
+    CardGroup(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        title = { Text(stringResource(R.string.about_page_desc_title)) },
+    ) {
+        item(
+            headlineContent = {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    paragraphs.forEach { paragraph ->
+                        Text(
+                            text = paragraph,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Text(
+                        text = lastParagraph,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            },
+        )
     }
 }

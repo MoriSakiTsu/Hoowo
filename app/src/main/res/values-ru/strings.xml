@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact_email">Эл. почта</string>
+  <string name="about_page_contact_email_copied">Адрес скопирован в буфер обмена</string>
+  <string name="about_page_contact_no_email_app">Почтовое приложение не найдено, адрес скопирован в буфер обмена</string>
+  <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">Hoowo начинался как плагин для открытого проекта RikkaHub, а затем вырос в самостоятельный проект.</string>
+  <string name="about_page_desc_p2">Мы сознательно ослабили акцент на продвинутых функциях и больше внимания уделяем базовым возможностям и удобству.</string>
+  <string name="about_page_desc_p3">Сейчас основное направление Hoowo — помощник в выполнении домашних заданий для школьников. Это направление с очень большой аудиторией, но хороших специализированных проектов на нём мало, поэтому разработчики продолжают развивать и улучшать его.</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">Приглашаем вас присоединиться к разработке. Через </string>
+  <string name="about_page_desc_p4_suffix"> (адрес указан чуть ниже) вы можете присоединиться к нашей разработке!</string>
+  <string name="about_page_desc_title">О Hoowo</string>
+  <string name="about_page_maintainer">Связаться с разработчиками</string>
   <string name="about_page_github">GitHub</string>
   <string name="about_page_license">Лицензия</string>
   <string name="about_page_system">Система</string>

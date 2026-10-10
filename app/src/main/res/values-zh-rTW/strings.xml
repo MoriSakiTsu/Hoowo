@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact_email">電子郵件</string>
+  <string name="about_page_contact_email_copied">電子郵件已複製到剪貼簿</string>
+  <string name="about_page_contact_no_email_app">找不到郵件應用程式，電子郵件已複製到剪貼簿</string>
+  <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">Hoowo 最初是開源專案 RikkaHub 的一個外掛，後來演變為獨立專案。</string>
+  <string name="about_page_desc_p2">我們淡化了對進階功能的專注，更著重於基礎與便捷化的開發。</string>
+  <string name="about_page_desc_p3">現在，Hoowo 的主要開發路線是學生的作業助手，這是一個使用者群體龐大的方向，但市面上少有好用的此類特化專案，維護者們正在這個領域不斷地開拓與優化。</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">歡迎你的加入，透過 </string>
+  <string name="about_page_desc_p4_suffix">（位址就寫在下面這裡）加入我們的開發！</string>
+  <string name="about_page_desc_title">關於 Hoowo</string>
+  <string name="about_page_maintainer">聯絡維護者</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">授權條款</string>
   <string name="about_page_system">系統</string>

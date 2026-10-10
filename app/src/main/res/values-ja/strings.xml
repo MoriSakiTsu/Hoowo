@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="about_page_contact_email">メール</string>
+  <string name="about_page_contact_email_copied">メールアドレスをクリップボードにコピーしました</string>
+  <string name="about_page_contact_no_email_app">メールアプリが見つかりません。アドレスをクリップボードにコピーしました</string>
+  <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">Hoowo はもともとオープンソースプロジェクト RikkaHub のプラグインでしたが、後に独立したプロジェクトになりました。</string>
+  <string name="about_page_desc_p2">高度な機能への偏重を弱め、基本機能と使いやすさをより重視して開発しています。</string>
+  <string name="about_page_desc_p3">現在の Hoowo の主な開発方針は学生の宿題アシスタントです。ユーザー層が非常に大きい分野でありながら、使いやすい特化型プロジェクトはほとんど存在しないため、メンテナーはこの分野を絶えず開拓し改善を続けています。</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">開発へのご参加を歓迎します。</string>
+  <string name="about_page_desc_p4_suffix">（アドレスはすぐ下に記載しています）から開発にご参加ください！</string>
+  <string name="about_page_desc_title">Hoowo について</string>
+  <string name="about_page_maintainer">メンテナーに連絡</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">ライセンス</string>
   <string name="about_page_system">システム</string>

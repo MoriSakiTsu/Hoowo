@@ -268,13 +268,6 @@ fun SettingPage(vm: SettingVM = koinViewModel()) {
                         supportingContent = { Text(stringResource(R.string.setting_page_about_desc)) },
                         headlineContent = { Text(stringResource(R.string.setting_page_about)) },
                     )
-                    // 请求日志对排查问题很有用, 保留给普通用户, 便于反馈问题时附上日志
-                    item(
-                        onClick = { navController.navigate(Screen.Log) },
-                        leadingContent = { Icon(HugeIcons.Bookshelf01, null) },
-                        supportingContent = { Text(stringResource(R.string.setting_page_request_logs_desc)) },
-                        headlineContent = { Text(stringResource(R.string.setting_page_request_logs)) },
-                    )
                     item(
                         onClick = {
                             val intent = Intent(Intent.ACTION_SEND)
@@ -296,6 +289,7 @@ fun SettingPage(vm: SettingVM = koinViewModel()) {
             item("developerOptions") {
                 CardGroup(
                     modifier = Modifier.padding(horizontal = 8.dp),
+                    title = { Text(stringResource(R.string.setting_page_developer_mode)) },
                 ) {
                     item(
                         leadingContent = { Icon(HugeIcons.Code, null) },
@@ -310,6 +304,15 @@ fun SettingPage(vm: SettingVM = koinViewModel()) {
                         },
                         headlineContent = { Text(stringResource(R.string.setting_page_developer_mode)) },
                     )
+                    // 请求日志用于排查问题, 面向要反馈 bug 的用户, 归入开发者选项
+                    if (developerMode) {
+                        item(
+                            onClick = { navController.navigate(Screen.Log) },
+                            leadingContent = { Icon(HugeIcons.Bookshelf01, null) },
+                            supportingContent = { Text(stringResource(R.string.setting_page_request_logs_desc)) },
+                            headlineContent = { Text(stringResource(R.string.setting_page_request_logs)) },
+                        )
+                    }
                 }
             }
         }

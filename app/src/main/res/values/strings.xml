@@ -1,10 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="about_page_contact">Contact Developer</string>
+  <string name="about_page_maintainer">Contact Maintainers</string>
   <string name="about_page_contact_email">Email</string>
   <string name="about_page_contact_email_copied">Email copied to clipboard</string>
   <string name="about_page_contact_no_email_app">No email app found, address copied to clipboard</string>
   <string name="about_page_contact_qq">QQ</string>
+  <string name="about_page_desc_p1">Hoowo began as a plugin for the open-source project RikkaHub, and later grew into a standalone project.</string>
+  <string name="about_page_desc_p2">We have deliberately played down the advanced features and focused more on the basics and on making things convenient.</string>
+  <string name="about_page_desc_p3">Hoowo\'s main direction today is a homework assistant for students. It is a direction with a very large user base, yet there are few good specialised projects for it, so the maintainers keep exploring and improving in this area.</string>
+  <string name="about_page_desc_p4_link">GitHub</string>
+  <string name="about_page_desc_p4_prefix">You are welcome to join us in developing it. Through </string>
+  <string name="about_page_desc_p4_suffix"> (the address is listed right below), you can join our development!</string>
+  <string name="about_page_desc_title">About Hoowo</string>
   <string name="about_page_github">Github</string>
   <string name="about_page_license">License</string>
   <string name="about_page_system">System</string>
